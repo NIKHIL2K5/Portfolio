@@ -21,13 +21,15 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const pathname = usePathname();
   const router = useRouter();
   const params = useParams();
-  const token = params.token as string;
-  const adminNav = getAdminNav(token);
+  const token = params?.token as string;
+  const adminNav = token ? getAdminNav(token) : [];
 
   const handleLogout = () => {
     document.cookie = `admin_token=; Max-Age=0; path=/;`;
     router.push('/admin');
   };
+
+  if (!token) return null;
 
   useEffect(() => {
     // Optionally set cookie for API routes if needed
@@ -37,50 +39,47 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   return (
     <div className="flex h-screen w-full bg-white overflow-hidden font-sans text-[#0D0D0D]">
       {/* Sidebar - Fixed 320px */}
-     <aside className="w-80 h-full bg-[#0D0D0D] flex flex-col justify-between shrink-0 relative z-30 shadow-2xl gap-10">
+      <aside className="w-80 h-full bg-black/90 backdrop-blur-xl flex flex-col justify-between shrink-0 relative z-30 shadow-2xl gap-10">
         {/* Top Profile Section */}
-        
+
         <div className="py-12 flex flex-col items-center border-b border-white/5">
           <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center mb-4 shadow-[0_0_30px_rgba(255,255,255,0.1)] ring-4 ring-white/5">
             <span className="text-black text-2xl font-black italic">N</span>
           </div>
-          <h1 className="text-[11px] font-black tracking-[0.3em] text-white uppercase italic opacity-80">
+          <h1 className="text-[11px] font-black tracking-[0.5em] text-white uppercase italic opacity-80">
             NIKHIL.ADMIN
           </h1>
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 px-8 py-10 overflow-y-auto flex flex-col gap-3 no-scrollbar">
+        <nav className="flex-1 px-8 py-12 overflow-y-auto flex flex-col gap-6 no-scrollbar ">
           {adminNav.map((item) => {
             const isActive = pathname === item.href;
-            const isOverview = item.name === "Overview";
-            const isProfile = item.name === "Profile";
-            
+            // const isOverview = item.name === "Overview";
+            // const isProfile = item.name === "Profile";
+
             return (
               <Link
                 key={item.name}
                 href={item.href}
-                className={`flex items-center justify-between px-6 py-4 rounded-xl transition-all duration-300 group ${
-                  isOverview ? "mb-4" : ""
-                } ${
-                  isProfile ? "mt-4" : ""
-                } ${isActive
-                  ? "bg-white/10 text-white shadow-lg"
-                  : "text-zinc-400 hover:text-zinc-200 hover:bg-white/5"
+                className={`flex items-center justify-center gap-4 px-6 py-4 text-center text-sm font-medium transition-all ${isActive
+                    ? "bg-white/10 text-white border-l-2 border-white"
+                    : "text-white/70 hover:text-white hover:bg-white/5"
                   }`}
               >
-                <div className="flex items-center gap-4">
-                  <div className={`transition-all duration-300 ${isActive ? "text-white" : "text-zinc-500 group-hover:text-zinc-300"}`}>
+                
+                <div className="flex justify-center items-center gap-4 ">
+                  <div className={`transition-all duration-300 ${isActive ? "text-white" : "text-white/50 group-hover:text-white"}`}>
                     {item.icon}
                   </div>
-                  <span className="text-[14px] font-medium tracking-tight">
+                  <span className="text-[13px] font-semibold uppercase" style={{ letterSpacing: "0.32em" }}>
                     {item.name}
                   </span>
                 </div>
                 {isActive && (
                   <motion.div
                     layoutId="activeDot"
-                    className="w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_8px_rgba(255,255,255,1)]"
+                    className="w-2 h-2 rounded-full bg-white shadow-[0_0_12px_white]"
                   />
                 )}
               </Link>
@@ -120,23 +119,23 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <main className="flex-1 h-full flex flex-col relative overflow-hidden bg-zinc-50/50">
         {/* System Header - Solid White */}
         <header className="h-20 shrink-0 flex items-center justify-between border-b border-zinc-200 bg-white sticky top-0 z-40" style={{ paddingLeft: '56px', paddingRight: '56px' }}>
-          <div className="space-y-1">
-            <p className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.4em] leading-none">System Dashboard</p>
-            <h2 className="text-4xl font-black tracking-tighter text-[#0D0D0D] py-1 uppercase italic">
+          <div className="space-y-3">
+            <p className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.6em] leading-none">System Dashboard</p>
+            <h2 className="text-4xl font-black tracking-tighter text-[#0D0D0D] py-2 uppercase italic leading-tight">
               {adminNav.find(n => n.href === pathname)?.name || "Overview"}
             </h2>
-            <div className="flex items-center gap-3 text-[10px] font-bold text-zinc-400 uppercase tracking-[0.2em]">
+            <div className="flex items-center gap-4 text-[10px] font-bold text-zinc-400 uppercase tracking-[0.3em]">
               <span>Admin</span>
               <span className="text-zinc-200 font-normal">/</span>
               <span className="text-zinc-600">{adminNav.find(n => n.href === pathname)?.name || "Overview"}</span>
             </div>
           </div>
 
-          <div className="flex items-center gap-6">
-            {/* Profile Button */}
-            <button className="w-10 h-10 rounded-full bg-[#0D0D0D] text-white flex items-center justify-center hover:scale-105 transition-all shadow-xl hover:shadow-black/20">
+          <div className="flex items-center gap-7">
+            {/* Profile Link */}
+            <Link href={`/admin/approval/${token}/profile`} className="w-10 h-10 rounded-full bg-[#0D0D0D] text-white flex items-center justify-center hover:scale-105 transition-all shadow-xl hover:shadow-black/20">
               <User size={18} />
-            </button>
+            </Link>
           </div>
         </header>
 
@@ -150,6 +149,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           </div>
         </div>
       </main>
-    </div>
+    </div >
   );
 }

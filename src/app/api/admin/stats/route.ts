@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import connectDB from "@/lib/mongodb";
-import { Project, Experience, Blog, AccessRequest } from "@/models/Portfolio";
+import { Project, Experience, Blog } from "@/models/Portfolio";
+import Message from "@/models/Message";
 
 export async function GET() {
   try {
@@ -10,7 +11,7 @@ export async function GET() {
       Project.countDocuments(),
       Experience.countDocuments(),
       Blog.countDocuments(),
-      AccessRequest.countDocuments(), // Assuming messages/requests count is this
+      Message.countDocuments(),
     ]);
 
     return NextResponse.json({

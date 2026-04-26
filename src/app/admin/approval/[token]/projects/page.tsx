@@ -43,17 +43,19 @@ export default function AdminProjects() {
   );
 
   return (
-    <div className="space-y-8 pb-20">
+    <div className="space-y-12 pb-30">
 
-      {/* Section Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-end justify-between mb-24">
         <div>
-          <p className="text-[10px] font-bold text-zinc-300 uppercase tracking-[0.3em] mb-2">System // Portfolio</p>
-          <h2 className="text-3xl font-bold text-[#0D0D0D] tracking-tight">Projects <span className="text-zinc-300 font-medium text-xl ml-2">({projects.length})</span></h2>
+         
+          <h2 className="text-6xl font-black text-[#0D0D0D] tracking-tighter uppercase italic leading-none">Projects <span className="text-zinc-200 font-medium text-4xl ml-4">({projects.length})</span></h2>
         </div>
         <button onClick={() => { setEditing(EMPTY_PROJECT); setOpen(true); }}
-          className="flex items-center gap-3 bg-[#0D0D0D] text-white px-8 py-4 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-zinc-800 active:scale-95 transition-all shadow-xl">
-          <Plus size={16} /> Add Project
+          className="group flex items-center justify-center bg-[#0D0D0D] text-white px-12 py-5 rounded-full hover:bg-zinc-800 active:scale-95 transition-all shadow-xl">
+          <div className="flex items-center gap-3">
+            <Plus size={18} className="group-hover:rotate-90 transition-transform duration-300" />
+            <span className="text-[12px] font-bold uppercase tracking-widest translate-x-[2px]">Initialize New</span>
+          </div>
         </button>
       </div>
 
@@ -68,39 +70,44 @@ export default function AdminProjects() {
           </button>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
           {projects.map((project, i) => (
             <motion.div key={project._id}
-              initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.06, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className="bg-white rounded-2xl border border-zinc-100 overflow-hidden flex flex-col shadow-sm hover:shadow-xl hover:-translate-y-0.5 transition-all duration-400 group">
-
-              {/* Image */}
-              <div className="aspect-[16/9] bg-zinc-50 border-b border-zinc-100 overflow-hidden relative">
-                {project.imageUrl
-                  ? <img src={project.imageUrl} alt={project.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                  : <div className="w-full h-full flex items-center justify-center text-zinc-200"><FolderOpen size={32} /></div>}
+              initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.08, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+              className="bg-white rounded-[40px] border border-zinc-100 flex flex-col shadow-[0_8px_30px_rgba(0,0,0,0.02)] hover:shadow-[0_40px_80px_rgba(0,0,0,0.08)] hover:-translate-y-2 transition-all duration-500 overflow-hidden group">
+              
+              {/* Image Area */}
+              <div className="aspect-[16/10] bg-zinc-50 relative overflow-hidden">
+                {project.imageUrl 
+                  ? <img src={project.imageUrl} alt={project.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
+                  : <div className="w-full h-full flex items-center justify-center text-zinc-200"><Briefcase size={48} /></div>}
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-500" />
               </div>
 
-              {/* Body */}
-              <div className="p-6 flex flex-col gap-4 flex-1">
-                <div>
-                  <h4 className="font-black text-[#0D0D0D] text-base tracking-tight uppercase italic mb-1">{project.name}</h4>
-                  <p className="text-[12px] text-zinc-500 line-clamp-2 leading-relaxed">{project.description}</p>
+              {/* Card Body */}
+              <div className="p-12 flex flex-col flex-1">
+                <div className="space-y-6 mb-12">
+                  <h4 className="font-black text-[#0D0D0D] text-3xl tracking-tight uppercase italic leading-none">{project.name}</h4>
+                  <p className="text-[17px] text-zinc-400 leading-relaxed font-medium line-clamp-2">{project.description}</p>
                 </div>
-                <div className="flex flex-wrap gap-1.5 flex-1">
+
+                <div className="flex flex-wrap gap-3 mb-12">
                   {project.stack?.map((s: string) => (
-                    <span key={s} className="text-[8px] px-2 py-1 bg-zinc-50 border border-zinc-100 rounded-lg text-zinc-400 font-black uppercase tracking-widest">{s}</span>
+                    <span key={s} className="text-[10px] px-4 py-2 bg-zinc-100/50 border border-zinc-100 rounded-xl text-[#0D0D0D] font-black uppercase tracking-[0.2em]">{s}</span>
                   ))}
                 </div>
-                <div className="flex gap-2 pt-4 border-t border-zinc-50">
+
+                {/* Footer Actions - Matching the Design */}
+                <div className="mt-auto flex items-center justify-between bg-zinc-50/50 rounded-2xl p-3 border border-zinc-100/50">
                   <button onClick={() => { setEditing(project); setOpen(true); }}
-                    className="flex-1 bg-zinc-50 hover:bg-[#0D0D0D] hover:text-white border border-zinc-100 hover:border-[#0D0D0D] py-2.5 rounded-xl transition-all flex items-center justify-center gap-2 text-[9px] font-black uppercase tracking-widest text-zinc-500">
-                    <Edit2 size={12} /> Edit
+                    className="flex items-center gap-4 px-8 py-4 text-[11px] font-black uppercase tracking-[0.3em] text-zinc-500 hover:text-black transition-all group">
+                    <Edit2 size={16} className="text-zinc-300 group-hover:text-black transition-colors" />
+                    Edit Details
                   </button>
                   <button onClick={() => handleDelete(project._id)}
-                    className="p-2.5 rounded-xl bg-red-50 hover:bg-red-500 text-red-400 hover:text-white transition-all border border-red-100 hover:border-red-500">
-                    <Trash2 size={13} />
+                    className="w-12 h-12 flex items-center justify-center text-red-400 hover:bg-red-50 hover:text-red-600 rounded-xl transition-all">
+                    <Trash2 size={18} />
                   </button>
                 </div>
               </div>
@@ -124,99 +131,99 @@ export default function AdminProjects() {
               initial={{ opacity: 0, scale: 0.98, y: 15 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.98, y: 15 }}
-              className="relative w-full max-w-2xl bg-white rounded-2xl shadow-[0_40px_100px_rgba(0,0,0,0.3)] overflow-hidden flex flex-col"
+              className="relative w-full max-w-2xl bg-white rounded-[40px] shadow-[0_40px_100px_rgba(0,0,0,0.3)] overflow-hidden flex flex-col border border-white/20"
               style={{ maxHeight: '90vh' }}
             >
               {/* Header */}
-              <div className="px-12 pt-16 pb-10 border-b border-zinc-100 bg-white">
-                <p className="text-[10px] font-bold text-zinc-300 uppercase tracking-[0.25em] mb-3">Project Management // System</p>
-                <div className="flex items-center justify-between">
-                  <h3 className="text-4xl font-bold text-[#0D0D0D] tracking-tight uppercase">
+              <div className="px-[48px] pt-[56px] pb-[32px] border-b border-zinc-100 bg-white shrink-0">
+                <p className="text-[11px] font-black text-zinc-300 uppercase tracking-[0.5em] mb-[16px]">Project Management // System</p>
+                <div className="flex items-center justify-between gap-6">
+                  <h3 className="text-6xl font-black text-[#0D0D0D] tracking-tighter uppercase italic leading-[0.8] py-2">
                     {editing?._id ? "Edit Project" : "New Project"}
                   </h3>
                   <button 
                     onClick={() => setOpen(false)}
-                    className="w-10 h-10 flex items-center justify-center bg-zinc-50 hover:bg-zinc-100 text-zinc-400 hover:text-[#0D0D0D] rounded-xl transition-all"
+                    className="w-[48px] h-[48px] shrink-0 flex items-center justify-center bg-zinc-50 hover:bg-zinc-100 text-zinc-400 hover:text-[#0D0D0D] rounded-xl transition-all border border-zinc-100"
                   >
-                    <X size={20} />
+                    <X size={24} />
                   </button>
                 </div>
               </div>
 
               {/* Scrollable Form body */}
-              <div className="flex-1 overflow-y-auto px-12 py-10 bg-white custom-scrollbar">
-                <form onSubmit={handleSave} className="space-y-10">
+              <div className="flex-1 overflow-y-auto px-[48px] py-[40px] bg-white custom-scrollbar">
+                <form onSubmit={handleSave} className="space-y-[48px]">
                   
                   {/* Section: Core Identity */}
-                  <div className="space-y-6">
-                    <p className="text-[10px] font-bold text-zinc-300 uppercase tracking-[0.2em] border-l-2 border-zinc-100 pl-4">Core Identity</p>
+                  <div className="space-y-[24px]">
+                    <p className="text-[11px] font-black text-zinc-300 uppercase tracking-[0.5em] mb-[12px]">Core Identity</p>
                     
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div className="space-y-2">
-                        <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest ml-1">Title</label>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-[24px]">
+                      <div className="space-y-[10px]">
+                        <label className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em] ml-1 block">Title</label>
                         <input 
                           required 
                           value={editing?.name} 
                           onChange={e => setEditing({ ...editing, name: e.target.value })}
-                          className="w-full bg-zinc-50/50 border border-zinc-200 rounded-xl px-5 py-4 text-sm font-medium text-[#0D0D0D] focus:outline-none focus:border-zinc-400 transition-all placeholder:text-zinc-300"
-                          placeholder="PROJECT NAME" 
+                          className="w-full bg-white border border-zinc-200 rounded-xl px-[20px] py-[16px] text-[14px] font-medium text-[#0D0D0D] focus:outline-none focus:border-zinc-400 transition-all placeholder:text-zinc-300"
+                          placeholder="Project Name" 
                         />
                       </div>
-                      <div className="space-y-2">
-                        <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest ml-1">Stack</label>
+                      <div className="space-y-[10px]">
+                        <label className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em] ml-1 block">Stack</label>
                         <input 
                           value={editing?.stack?.join(", ")} 
                           onChange={e => setEditing({ ...editing, stack: e.target.value.split(",").map((s: string) => s.trim()) })}
-                          className="w-full bg-zinc-50/50 border border-zinc-200 rounded-xl px-5 py-4 text-sm font-medium text-[#0D0D0D] focus:outline-none focus:border-zinc-400 transition-all placeholder:text-zinc-300"
-                          placeholder="TECH STACK" 
+                          className="w-full bg-white border border-zinc-200 rounded-xl px-[20px] py-[16px] text-[14px] font-medium text-[#0D0D0D] focus:outline-none focus:border-zinc-400 transition-all placeholder:text-zinc-300"
+                          placeholder="Tech Stack" 
                         />
                       </div>
                     </div>
 
-                    <div className="space-y-2">
-                      <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest ml-1">Narrative</label>
+                    <div className="space-y-[10px]">
+                      <label className="text-[10px] font-black text-zinc-800 uppercase tracking-[0.2em] ml-1 block">Narrative</label>
                       <textarea 
                         required 
-                        rows={4} 
+                        rows={5} 
                         value={editing?.description} 
                         onChange={e => setEditing({ ...editing, description: e.target.value })}
-                        className="w-full bg-zinc-50/50 border border-zinc-200 rounded-xl px-5 py-4 text-sm font-medium text-[#0D0D0D] focus:outline-none focus:border-zinc-400 transition-all resize-none leading-relaxed placeholder:text-zinc-300"
-                        placeholder="PROJECT DESCRIPTION" 
+                        className="w-full bg-white border border-zinc-200 rounded-xl px-[20px] py-[20px] text-sm font-medium text-[#0D0D0D] focus:outline-none focus:border-zinc-400 transition-all resize-none leading-relaxed placeholder:text-zinc-300"
+                        placeholder="Project Description" 
                       />
                     </div>
                   </div>
 
                   {/* Section: Assets & Deployment */}
-                  <div className="space-y-6">
-                    <p className="text-[10px] font-bold text-zinc-300 uppercase tracking-[0.2em] border-l-2 border-zinc-100 pl-4">Assets & Links</p>
+                  <div className="space-y-[24px]">
+                    <p className="text-[11px] font-black text-zinc-300 uppercase tracking-[0.5em] mb-[12px]">Assets & Deployment</p>
                     
-                    <div className="space-y-2">
-                      <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest ml-1">Visual Asset URL</label>
+                    <div className="space-y-[10px]">
+                      <label className="text-[10px] font-black text-zinc-800 uppercase tracking-[0.2em] ml-1 block">Visual Asset URL</label>
                       <input 
                         value={editing?.imageUrl} 
                         onChange={e => setEditing({ ...editing, imageUrl: e.target.value })}
-                        className="w-full bg-zinc-50/50 border border-zinc-200 rounded-xl px-5 py-4 text-sm font-medium text-[#0D0D0D] focus:outline-none focus:border-zinc-400 transition-all placeholder:text-zinc-300"
-                        placeholder="IMAGE URL" 
+                        className="w-full bg-white border border-zinc-200 rounded-xl px-[20px] py-[16px] text-sm font-medium text-[#0D0D0D] focus:outline-none focus:border-zinc-400 transition-all placeholder:text-zinc-300"
+                        placeholder="Image URL" 
                       />
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div className="space-y-2">
-                        <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest ml-1">Source Code</label>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-[24px]">
+                      <div className="space-y-[10px]">
+                        <label className="text-[10px] font-black text-zinc-800 uppercase tracking-[0.2em] ml-1 block">Source Code</label>
                         <input 
                           value={editing?.githubUrl} 
                           onChange={e => setEditing({ ...editing, githubUrl: e.target.value })}
-                          className="w-full bg-zinc-50/50 border border-zinc-200 rounded-xl px-5 py-4 text-sm font-medium text-[#0D0D0D] focus:outline-none focus:border-zinc-400 transition-all placeholder:text-zinc-300"
-                          placeholder="GITHUB LINK" 
+                          className="w-full bg-white border border-zinc-200 rounded-xl px-[20px] py-[16px] text-sm font-medium text-[#0D0D0D] focus:outline-none focus:border-zinc-400 transition-all placeholder:text-zinc-300"
+                          placeholder="GitHub Link" 
                         />
                       </div>
-                      <div className="space-y-2">
-                        <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest ml-1">Live Endpoint</label>
+                      <div className="space-y-[10px]">
+                        <label className="text-[10px] font-black text-zinc-800 uppercase tracking-[0.2em] ml-1 block">Live Endpoint</label>
                         <input 
                           value={editing?.liveUrl} 
                           onChange={e => setEditing({ ...editing, liveUrl: e.target.value })}
-                          className="w-full bg-zinc-50/50 border border-zinc-200 rounded-xl px-5 py-4 text-sm font-medium text-[#0D0D0D] focus:outline-none focus:border-zinc-400 transition-all placeholder:text-zinc-300"
-                          placeholder="DEPLOYMENT LINK" 
+                          className="w-full bg-white border border-zinc-200 rounded-xl px-[20px] py-[16px] text-sm font-medium text-[#0D0D0D] focus:outline-none focus:border-zinc-400 transition-all placeholder:text-zinc-300"
+                          placeholder="Deployment Link" 
                         />
                       </div>
                     </div>
@@ -225,13 +232,13 @@ export default function AdminProjects() {
               </div>
 
               {/* Footer Action */}
-              <div className="px-12 py-8 bg-zinc-50/50 border-t border-zinc-100">
+              <div className="px-[48px] py-[32px] bg-white border-t border-zinc-100 shrink-0">
                 <button 
                   onClick={handleSave}
-                  className="w-full bg-[#0D0D0D] hover:bg-zinc-800 text-white font-bold uppercase tracking-[0.2em] text-[11px] py-4 rounded-xl transition-all flex items-center justify-center gap-3 shadow-lg active:scale-[0.99]"
+                  className="w-full bg-[#0D0D0D] hover:bg-zinc-800 text-white font-black uppercase tracking-[0.3em] text-[13px] py-[20px] rounded-full transition-all flex items-center justify-center gap-[16px] shadow-[0_20px_40px_rgba(0,0,0,0.2)] active:scale-[0.98]"
                 >
-                  <Save size={18} />
-                  {editing?._id ? "Synchronize Repository" : "Initialize Project"}
+                  <Save size={20} />
+                  <span className="translate-x-[3px]">{editing?._id ? "Synchronize Repository" : "Initialize Project"}</span>
                 </button>
               </div>
             </motion.div>

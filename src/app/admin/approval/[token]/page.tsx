@@ -37,7 +37,7 @@ function StatCard({ label, value, icon, href, index, loaded }: {
       transition={{ delay: index * 0.07, duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
     >
       <Link href={href} className="block group">
-        <div className="relative bg-white rounded-2xl border border-zinc-100 flex flex-col hover:shadow-xl hover:-translate-y-0.5 transition-all duration-400 overflow-hidden" style={{ padding: '28px' }}>
+        <div className="relative bg-white rounded-2xl border border-zinc-100 flex flex-col hover:shadow-xl hover:-translate-y-0.5 transition-all duration-400 overflow-hidden" style={{ padding: '36px' }}>
           {/* top row */}
           <div className="flex items-start justify-between mb-6">
             <motion.div whileHover={{ rotate: [-6, 6, 0], scale: 1.1 }} transition={{ duration: 0.35 }}
@@ -50,15 +50,15 @@ function StatCard({ label, value, icon, href, index, loaded }: {
           </div>
           {/* value */}
           <div className="mb-6">
-            <p className="text-[9px] font-black text-zinc-300 uppercase tracking-[0.3em] mb-2">{label}</p>
+            <p className="text-[10px] font-black text-zinc-300 uppercase tracking-[0.5em] mb-4">{label}</p>
             {!loaded
               ? <div className="h-10 w-16 bg-zinc-100 rounded-lg animate-pulse" />
               : <p className="text-5xl font-black text-[#0D0D0D] tracking-tighter tabular-nums leading-none">{count}</p>}
           </div>
           {/* footer */}
           <div className="flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.2em] text-zinc-300 group-hover:text-[#0D0D0D] transition-colors duration-300 pt-4 border-t border-zinc-100 mt-auto">
-            <span>Open Module</span>
-            <ArrowUpRight size={10} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300" />
+            <span className="tracking-[0.2em]">Open Module</span>
+            <ArrowUpRight size={10} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
           </div>
         </div>
       </Link>
@@ -67,9 +67,12 @@ function StatCard({ label, value, icon, href, index, loaded }: {
 }
 
 export default function AdminDashboard() {
-  const { token } = useParams<{ token: string }>();
+  const params = useParams();
+  const token = params?.token as string;
   const [data, setData] = useState({ projects: 0, experience: 0, blogs: 0, messages: 0 });
   const [loaded, setLoaded] = useState(false);
+
+  if (!token) return null;
 
   useEffect(() => {
     fetch("/api/admin/stats")
@@ -83,10 +86,11 @@ export default function AdminDashboard() {
   }, []);
 
   const cards = [
-    { label: "Total Projects", value: data.projects, icon: <Briefcase size={18} />, href: `/admin/approval/${token}/projects` },
-    { label: "Experience", value: data.experience, icon: <Clock size={18} />, href: `/admin/approval/${token}/experience` },
-    { label: "Published Blogs", value: data.blogs, icon: <BookOpen size={18} />, href: `/admin/approval/${token}/blogs` },
-    { label: "Unread Messages", value: data.messages, icon: <MessageCircle size={18} />, href: `/admin/approval/${token}/messages` },
+    { label: "PROJECTS", value: data.projects, icon: <Briefcase size={18} />, href: `/admin/approval/${token}/projects` },
+    { label: "EXPERIENCE", value: data.experience, icon: <Clock size={18} />, href: `/admin/approval/${token}/experience` },
+    { label: "BLOG POSTS", value: data.blogs, icon: <BookOpen size={18} />, href: `/admin/approval/${token}/blogs` },
+    { label: "TESTIMONIALS", value: (data as any).testimonials ?? 0, icon: <Star size={18} />, href: `/admin/approval/${token}/testimonials` },
+    { label: "MESSAGES", value: data.messages, icon: <MessageCircle size={18} />, href: `/admin/approval/${token}/messages` },
   ];
 
   return (
@@ -95,8 +99,8 @@ export default function AdminDashboard() {
       {/* Section label */}
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-[9px] font-black text-zinc-300 uppercase tracking-[0.4em] mb-2">System Overview</p>
-          <h2 className="text-3xl font-black text-[#0D0D0D] tracking-tight">Dashboard Metrics</h2>
+          <p className="text-[10px] font-black text-zinc-300 uppercase tracking-[0.6em] mb-3">System Overview</p>
+          <h2 className="text-3xl font-black text-[#0D0D0D] tracking-tight uppercase italic">Dashboard Metrics</h2>
         </div>
         <span className="flex items-center gap-2 text-[9px] font-black text-zinc-400 uppercase tracking-[0.2em] bg-zinc-50 border border-zinc-100 px-4 py-2 rounded-full">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
@@ -136,7 +140,7 @@ export default function AdminDashboard() {
           <h3 style={{ fontSize: 'clamp(2.5rem, 5vw, 4.5rem)', fontWeight: 900, letterSpacing: '-0.04em', color: 'white', textTransform: 'uppercase', fontStyle: 'italic', lineHeight: 1 }}>
             Central<br />Administration
           </h3>
-          <p style={{ fontSize: '11px', color: 'rgba(255,255,255,0.3)', lineHeight: 1.8, letterSpacing: '0.08em', textTransform: 'uppercase', maxWidth: '480px' }}>
+          <p style={{ fontSize: '11px', color: 'rgba(255,255,255,0.35)', lineHeight: 2, letterSpacing: '0.12em', textTransform: 'uppercase', maxWidth: '520px' }}>
             Authenticated within the high-security portfolio management cluster. Synchronize projects,
             manage global messaging, and refine your identity. Secured via 30-min handshake protocol.
           </p>
