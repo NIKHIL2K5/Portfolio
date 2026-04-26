@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { ArrowUpRight, Clock, Tag } from "lucide-react";
+import Link from "next/link";
 
 const primaryEase = [0.85, 0, 0.15, 1] as any;
 
@@ -169,14 +170,14 @@ export default function Blog({ blogs = [] }: { blogs?: any[] }) {
           viewport={{ once: true }}
           style={{ marginTop: 36 }}
         >
-          <a
-            href="#"
+          <Link
+            href="/blogs"
             className="inline-flex items-center gap-2 text-white/35 hover:text-white transition-colors duration-300"
             style={{ fontSize: 12, fontWeight: 600, letterSpacing: "0.08em", textDecoration: "none" }}
           >
             View all posts
             <ArrowUpRight size={13} />
-          </a>
+          </Link>
         </motion.div>
       </div>
     </section>
