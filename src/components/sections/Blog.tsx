@@ -35,7 +35,31 @@ const posts = [
   },
 ];
 
-export default function Blog() {
+export default function Blog({ blogs = [] }: { blogs?: any[] }) {
+  // Helper to calculate read time
+  const getReadTime = (content: string) => {
+    const wordsPerMinute = 200;
+    const words = content?.split(/\s+/).length || 0;
+    const minutes = Math.ceil(words / wordsPerMinute);
+    return `${minutes} min read`;
+  };
+
+  // Helper to format date
+  const formatDate = (dateStr: string) => {
+    const date = new Date(dateStr);
+    return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+  };
+
+  // Use dynamic blogs if available, otherwise fallback to static posts for demo
+  const displayPosts = blogs.length > 0 ? blogs.map(blog => ({
+    slug: `/blog/${blog._id}`, // Or a specific slug if added later
+    tag: "Article",
+    date: formatDate(blog.createdAt),
+    readTime: getReadTime(blog.content),
+    title: blog.title,
+    excerpt: blog.excerpt || blog.content.substring(0, 150) + "...",
+  })) : posts;
+
   return (
     <section id="blog" className="bg-[#050505]" style={{ padding: "6rem 0" }}>
       <div style={{ paddingLeft: 120, paddingRight: 80 }}>
@@ -53,7 +77,7 @@ export default function Blog() {
             <span className="text-[10px] font-bold tracking-[0.45em] uppercase text-red-500/80">Writing</span>
           </div>
           <h2
-            className="font-black tracking-tight"
+            className="font-black tracking-tight text-white"
             style={{ fontSize: "clamp(3rem, 6vw, 5rem)", lineHeight: 1 }}
           >
             Blog
@@ -65,7 +89,7 @@ export default function Blog() {
 
         {/* Post list */}
         <div style={{ display: "flex", flexDirection: "column" }}>
-          {posts.map((post, i) => (
+          {displayPosts.map((post, i) => (
             <motion.a
               key={i}
               href={post.slug}

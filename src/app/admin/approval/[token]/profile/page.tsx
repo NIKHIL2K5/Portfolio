@@ -7,7 +7,7 @@ import { Save, Loader2, Globe, Share2, CheckCircle, Link2, Briefcase, CodeXml, P
 export default function AdminProfile() {
   const [mounted, setMounted] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
+  const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false);
   const [data, setData] = useState({
     email: "", location: "",
@@ -134,14 +134,14 @@ export default function AdminProfile() {
           </div>
           <div className="space-y-6">
             {[
-              { key: "linkedin", icon: <Briefcase size={16} className="text-blue-600" />, color: "bg-blue-50" },
-              { key: "github", icon: <CodeXml size={16} className="text-zinc-900" />, color: "bg-zinc-100" },
-              { key: "youtube", icon: <PlayCircle size={16} className="text-red-600" />, color: "bg-red-50" },
-              { key: "instagram", icon: <Camera size={16} className="text-pink-600" />, color: "bg-pink-50" }
+              { key: "linkedin", icon: "https://img.icons8.com/ios-glyphs/60/0077B5/linkedin.png", color: "bg-blue-50" },
+              { key: "github", icon: "https://img.icons8.com/ios-glyphs/60/181717/github.png", color: "bg-zinc-100" },
+              { key: "youtube", icon: "https://img.icons8.com/ios-glyphs/60/FF0000/youtube-play.png", color: "bg-red-50" },
+              { key: "instagram", icon: "https://img.icons8.com/ios-glyphs/60/E4405F/instagram-new.png", color: "bg-pink-50" }
             ].map(({ key, icon, color }) => (
               <div key={key} className="flex items-center gap-4 group">
-                <div className={`w-12 h-12 rounded-2xl ${color} flex items-center justify-center shrink-0 transition-transform group-hover:scale-110 duration-300`}>
-                  {icon}
+                <div className={`w-12 h-12 rounded-2xl ${color} flex items-center justify-center shrink-0 transition-transform group-hover:scale-110 duration-300 p-3`}>
+                  <img src={icon} alt={key} className="w-full h-full object-contain" />
                 </div>
                 <div className="flex-1 space-y-1.5">
                   <label className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em] ml-1">{key}</label>

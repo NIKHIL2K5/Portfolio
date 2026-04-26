@@ -24,11 +24,12 @@ export default function Contact({ settings }: { settings?: any }) {
   ];
 
   const dynamicSocials = [
-    { label: "LinkedIn", href: settings?.socialLinks?.linkedin || "#", icon: "linkedin" },
-    { label: "GitHub", href: settings?.socialLinks?.github || "#", icon: "github" },
-    { label: "Twitter", href: settings?.socialLinks?.twitter || "#", icon: "twitter" },
-    { label: "Instagram", href: settings?.socialLinks?.instagram || "#", icon: "instagram" },
+    { label: "LinkedIn", href: settings?.socialLinks?.linkedin || "#", icon: "https://img.icons8.com/ios-glyphs/60/ffffff/linkedin.png" },
+    { label: "GitHub", href: settings?.socialLinks?.github || "#", icon: "https://img.icons8.com/ios-glyphs/60/ffffff/github.png" },
+    { label: "YouTube", href: settings?.socialLinks?.youtube || "#", icon: "https://img.icons8.com/ios-glyphs/60/ffffff/youtube-play.png" },
+    { label: "Instagram", href: settings?.socialLinks?.instagram || "#", icon: "https://img.icons8.com/ios-glyphs/60/ffffff/instagram-new.png" },
   ];
+  
   const [focused, setFocused] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [status, setStatus] = useState<{ success?: boolean; message?: string } | null>(null);
@@ -70,18 +71,38 @@ export default function Contact({ settings }: { settings?: any }) {
     <section
       id="contact"
       className="bg-[#050505] relative overflow-hidden"
-      style={{ padding: "6rem 0 5rem" }}
+      style={{ padding: "8rem 0 6rem" }}
     >
-      {/* Glow */}
-      <div className="absolute bottom-0 right-0 w-[500px] h-[400px] bg-red-600/5 blur-[140px] rounded-full pointer-events-none" />
+      {/* ── Dynamic Animated Background ── */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <motion.div 
+          animate={{ 
+            scale: [1, 1.3, 1],
+            opacity: [0.03, 0.08, 0.03],
+            rotate: [0, 90, 0]
+          }}
+          transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+          className="absolute -bottom-[20%] -right-[10%] w-[70%] h-[70%] bg-red-600/30 blur-[140px] rounded-full"
+        />
+        <motion.div 
+          animate={{ 
+            scale: [1.3, 1, 1.3],
+            opacity: [0.05, 0.1, 0.05],
+            x: [0, -30, 0]
+          }}
+          transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
+          className="absolute top-[20%] -left-[10%] w-[50%] h-[50%] bg-zinc-600/10 blur-[120px] rounded-full"
+        />
+        <div className="absolute inset-0 bg-noise opacity-5" />
+      </div>
 
-      <div style={{ paddingLeft: 120, paddingRight: 80 }}>
+      <div style={{ paddingLeft: 120, paddingRight: 80 }} className="relative z-10">
 
         {/* ── Header ── */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.8, ease: primaryEase }}
           viewport={{ once: true }}
           style={{ marginBottom: 56 }}
         >
@@ -92,17 +113,17 @@ export default function Contact({ settings }: { settings?: any }) {
             </span>
           </div>
           <h2
-            className="font-black tracking-tight"
-            style={{ fontSize: "clamp(3rem, 6vw, 5rem)", lineHeight: 1 }}
+            className="font-black tracking-tight text-white"
+            style={{ fontSize: "clamp(3.5rem, 8vw, 5.5rem)", lineHeight: 0.95 }}
           >
             Let&apos;s Build
             <br />
-            <span style={{ color: "rgba(255,255,255,0.2)" }}>Something Great.</span>
+            <span className="text-white/20">Something Great.</span>
           </h2>
         </motion.div>
 
         {/* ── Rule ── */}
-        <div style={{ height: 1, background: "rgba(255,255,255,0.07)", marginBottom: 52 }} />
+        <div style={{ height: 1, background: "rgba(255,255,255,0.07)", marginBottom: 64 }} />
 
         {/* ── Two-column layout ── */}
         <div
@@ -115,18 +136,18 @@ export default function Contact({ settings }: { settings?: any }) {
         >
           {/* LEFT: info + socials */}
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
+            initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, ease: primaryEase }}
+            transition={{ duration: 0.9, ease: primaryEase }}
             viewport={{ once: true }}
           >
             <p
               style={{
-                fontSize: 14,
+                fontSize: 15,
                 color: "rgba(255,255,255,0.35)",
                 lineHeight: 1.8,
-                maxWidth: 380,
-                marginBottom: 40,
+                maxWidth: 400,
+                marginBottom: 48,
               }}
             >
               Whether you have a project in mind, want to collaborate, or just
@@ -134,13 +155,18 @@ export default function Contact({ settings }: { settings?: any }) {
             </p>
 
             {/* Info items */}
-            <div style={{ display: "flex", flexDirection: "column", gap: 24, marginBottom: 44 }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 32, marginBottom: 56 }}>
               {dynamicInfo.map((item, i) => (
-                <div key={i} className="flex items-center gap-4">
+                <motion.div 
+                  key={i} 
+                  className="flex items-center gap-5 group cursor-pointer"
+                  whileHover={{ x: 5 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                >
                   <div
-                    className="flex items-center justify-center flex-shrink-0"
+                    className="flex items-center justify-center flex-shrink-0 transition-all duration-500 group-hover:bg-white group-hover:text-black"
                     style={{
-                      width: 36, height: 36, borderRadius: 10,
+                      width: 44, height: 44, borderRadius: 12,
                       border: "1px solid rgba(255,255,255,0.08)",
                       background: "rgba(255,255,255,0.03)",
                       color: "rgba(255,255,255,0.4)",
@@ -149,55 +175,62 @@ export default function Contact({ settings }: { settings?: any }) {
                     {item.icon}
                   </div>
                   <div>
-                    <p style={{ fontSize: 10, color: "rgba(255,255,255,0.25)", letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: 3 }}>
+                    <p style={{ fontSize: 10, color: "rgba(255,255,255,0.25)", letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: 4, fontWeight: 800 }}>
                       {item.label}
                     </p>
                     {item.href ? (
                       <a
                         href={item.href}
-                        style={{ fontSize: 14, fontWeight: 600, color: "rgba(255,255,255,0.75)", textDecoration: "none" }}
+                        style={{ fontSize: 16, fontWeight: 700, color: "rgba(255,255,255,0.8)", textDecoration: "none" }}
                         className="hover:text-white transition-colors duration-300"
                       >
                         {item.value}
                       </a>
                     ) : (
-                      <p style={{ fontSize: 14, fontWeight: 600, color: "rgba(255,255,255,0.75)" }}>
+                      <p style={{ fontSize: 16, fontWeight: 700, color: "rgba(255,255,255,0.8)" }}>
                         {item.value}
                       </p>
                     )}
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
 
             {/* Socials */}
-            <div style={{ display: "flex", gap: 10 }}>
+            <div style={{ display: "flex", gap: 14 }}>
               {dynamicSocials.map((s, i) => (
                 <motion.a
                   key={i}
                   href={s.href}
                   title={s.label}
-                  whileHover={{ y: -2 }}
-                  transition={{ duration: 0.2 }}
-                  className="flex items-center justify-center font-bold text-[10px]"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  whileHover={{ 
+                    y: -8, 
+                    scale: 1.1,
+                    backgroundColor: "rgba(255,255,255,0.1)",
+                    borderColor: "rgba(255,255,255,0.2)"
+                  }}
+                  transition={{ 
+                    type: "spring", 
+                    stiffness: 400, 
+                    damping: 15,
+                    delay: i * 0.05 
+                  }}
+                  viewport={{ once: true }}
+                  className="flex items-center justify-center group"
                   style={{
-                    width: 38, height: 38, borderRadius: 10,
+                    width: 52, height: 52, borderRadius: 14,
                     border: "1px solid rgba(255,255,255,0.08)",
                     background: "rgba(255,255,255,0.03)",
-                    color: "rgba(255,255,255,0.35)",
                     textDecoration: "none",
-                    transition: "color 0.3s, border-color 0.3s, background 0.3s",
-                  }}
-                  onMouseEnter={e => {
-                    (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.85)";
-                    (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.18)";
-                  }}
-                  onMouseLeave={e => {
-                    (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.35)";
-                    (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.08)";
                   }}
                 >
-                  {s.label[0]}
+                  <img 
+                    src={s.icon as string} 
+                    alt={s.label} 
+                    className="w-6 h-6 object-contain opacity-40 group-hover:opacity-100 transition-all duration-500 group-hover:scale-110" 
+                  />
                 </motion.a>
               ))}
             </div>
@@ -205,21 +238,22 @@ export default function Contact({ settings }: { settings?: any }) {
 
           {/* RIGHT: form */}
           <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.1, ease: primaryEase }}
+            initial={{ opacity: 0, scale: 0.95, x: 30 }}
+            whileInView={{ opacity: 1, scale: 1, x: 0 }}
+            transition={{ duration: 0.9, delay: 0.1, ease: primaryEase }}
             viewport={{ once: true }}
             style={{
-              padding: "36px 40px",
-              borderRadius: 20,
+              padding: "48px 52px",
+              borderRadius: 32,
               border: "1px solid rgba(255,255,255,0.07)",
               background: "rgba(255,255,255,0.02)",
+              backdropFilter: "blur(12px)",
             }}
           >
-            <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 32 }}>
+            <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 36 }}>
               {/* Name */}
-              <div>
-                <label style={{ fontSize: 10, letterSpacing: "0.3em", textTransform: "uppercase", color: "rgba(255,255,255,0.25)", display: "block", marginBottom: 8 }}>
+              <div className="group">
+                <label style={{ fontSize: 10, letterSpacing: "0.3em", textTransform: "uppercase", color: "rgba(255,255,255,0.2)", display: "block", marginBottom: 10, fontWeight: 800 }}>
                   Name
                 </label>
                 <input
@@ -234,8 +268,8 @@ export default function Contact({ settings }: { settings?: any }) {
               </div>
 
               {/* Email */}
-              <div>
-                <label style={{ fontSize: 10, letterSpacing: "0.3em", textTransform: "uppercase", color: "rgba(255,255,255,0.25)", display: "block", marginBottom: 8 }}>
+              <div className="group">
+                <label style={{ fontSize: 10, letterSpacing: "0.3em", textTransform: "uppercase", color: "rgba(255,255,255,0.2)", display: "block", marginBottom: 10, fontWeight: 800 }}>
                   Email
                 </label>
                 <input
@@ -250,8 +284,8 @@ export default function Contact({ settings }: { settings?: any }) {
               </div>
 
               {/* Message */}
-              <div>
-                <label style={{ fontSize: 10, letterSpacing: "0.3em", textTransform: "uppercase", color: "rgba(255,255,255,0.25)", display: "block", marginBottom: 8 }}>
+              <div className="group">
+                <label style={{ fontSize: 10, letterSpacing: "0.3em", textTransform: "uppercase", color: "rgba(255,255,255,0.2)", display: "block", marginBottom: 10, fontWeight: 800 }}>
                   Message
                 </label>
                 <textarea
@@ -267,38 +301,46 @@ export default function Contact({ settings }: { settings?: any }) {
 
               {/* Status Message */}
               {status && (
-                <p style={{
-                  fontSize: 12,
-                  color: status.success ? "#4ade80" : "#f87171",
-                  marginTop: -10,
-                  fontWeight: 600
-                }}>
+                <motion.p 
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  style={{
+                    fontSize: 12,
+                    color: status.success ? "#4ade80" : "#f87171",
+                    marginTop: -10,
+                    fontWeight: 800,
+                    textAlign: "center"
+                  }}>
                   {status.message}
-                </p>
+                </motion.p>
               )}
 
               {/* Submit */}
               <motion.button
                 type="submit"
                 disabled={isSubmitting}
-                whileHover={!isSubmitting ? { scale: 1.02 } : {}}
+                whileHover={!isSubmitting ? { 
+                  scale: 1.02,
+                  backgroundColor: "#fff",
+                  boxShadow: "0 20px 40px -10px rgba(255,255,255,0.2)"
+                } : {}}
                 whileTap={!isSubmitting ? { scale: 0.98 } : {}}
-                className="flex items-center justify-center gap-2 font-bold w-full disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex items-center justify-center gap-3 font-black w-full disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-500"
                 style={{
-                  height: 50,
-                  borderRadius: 12,
-                  background: "#fff",
+                  height: 60,
+                  borderRadius: 16,
+                  background: "#eee",
                   color: "#000",
-                  fontSize: 13,
-                  letterSpacing: "0.06em",
+                  fontSize: 14,
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
                   cursor: "pointer",
                   border: "none",
                   fontFamily: "inherit",
-                  marginTop: 4,
                 }}
               >
                 {isSubmitting ? "Sending..." : "Send Message"}
-                <Send size={14} />
+                <Send size={16} />
               </motion.button>
             </form>
           </motion.div>
