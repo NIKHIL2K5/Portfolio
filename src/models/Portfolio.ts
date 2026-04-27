@@ -13,7 +13,11 @@ const ProjectSchema = new Schema({
 const ExperienceSchema = new Schema({
   title: { type: String, required: true },
   company: { type: String, required: true },
-  duration: { type: String, required: true },
+  duration: { type: String, required: true }, // Kept for formatted string
+  startDate: { type: Date },
+  endDate: { type: Date },
+  isPresent: { type: Boolean, default: false },
+  companyUrl: { type: String },
   description: { type: String, required: true },
   order: { type: Number, default: 0 },
 }, { timestamps: true });
@@ -40,7 +44,7 @@ const SettingsSchema = new Schema({
   socialLinks: {
     linkedin: { type: String },
     github: { type: String },
-    twitter: { type: String },
+    youtube: { type: String },
     instagram: { type: String },
   },
   stats: {

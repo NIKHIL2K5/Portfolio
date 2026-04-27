@@ -44,7 +44,7 @@ export default function Contact({ settings }: { settings?: any }) {
 
     setIsSubmitting(false);
     if (result.success) {
-      setStatus({ success: true, message: "Message sent successfully!" });
+      setStatus({ success: true, message: "Message sent successfully! I will contact you within 24 hours." });
       (e.target as HTMLFormElement).reset();
     } else {
       setStatus({ success: false, message: result.error || "Failed to send message." });
@@ -96,7 +96,7 @@ export default function Contact({ settings }: { settings?: any }) {
         <div className="absolute inset-0 bg-noise opacity-5" />
       </div>
 
-      <div style={{ paddingLeft: 120, paddingRight: 80 }} className="relative z-10">
+      <div className="relative z-10 px-6 sm:px-12 md:px-20 lg:pl-[120px] lg:pr-[80px]">
 
         {/* ── Header ── */}
         <motion.div
@@ -113,8 +113,7 @@ export default function Contact({ settings }: { settings?: any }) {
             </span>
           </div>
           <h2
-            className="font-black tracking-tight text-white"
-            style={{ fontSize: "clamp(3.5rem, 8vw, 5.5rem)", lineHeight: 0.95 }}
+            className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-tight text-white leading-[0.95]"
           >
             Let&apos;s Build
             <br />
@@ -123,17 +122,10 @@ export default function Contact({ settings }: { settings?: any }) {
         </motion.div>
 
         {/* ── Rule ── */}
-        <div style={{ height: 1, background: "rgba(255,255,255,0.07)", marginBottom: 64 }} />
+        <div className="h-px bg-white/[0.07] mb-12 md:mb-16" />
 
         {/* ── Two-column layout ── */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: "5rem",
-            alignItems: "start",
-          }}
-        >
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
           {/* LEFT: info + socials */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}

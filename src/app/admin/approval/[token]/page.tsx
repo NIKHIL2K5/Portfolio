@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { Briefcase, Clock, BookOpen, MessageCircle, ArrowUpRight, TrendingUp, Activity } from "lucide-react";
+import { Briefcase, Clock, BookOpen, MessageCircle, ArrowUpRight, TrendingUp, Activity, Star } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 

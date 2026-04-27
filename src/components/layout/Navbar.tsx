@@ -99,7 +99,7 @@ export default function Navbar() {
 
   // Hide Navbar completely on Admin routes
   // Move this AFTER all hook calls to comply with React "Rules of Hooks"
-  if (pathname?.startsWith("/admin")) return null;
+  if (pathname?.startsWith("/admin") || pathname?.startsWith("/blog")) return null;
 
   return (
     <AnimatePresence>

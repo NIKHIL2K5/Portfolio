@@ -211,6 +211,7 @@ export default function About({ stats: dynamicStats }: { stats?: any }) {
                   src="/nikhilaboutme.png"
                   alt="Nikhil"
                   fill
+                  sizes="(max-width: 768px) 100vw, 460px"
                   className="object-cover object-top grayscale group-hover/card:grayscale-0 transition-all duration-[2500ms] scale-[1.08] group-hover/card:scale-100"
                   priority
                 />

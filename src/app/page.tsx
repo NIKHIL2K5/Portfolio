@@ -26,7 +26,7 @@ export default function Home() {
   return (
     <main className="relative bg-black min-h-screen">
       <div className="relative z-10">
-        <Hero />
+        <Hero socialLinks={data.settings.socialLinks} />
         <About stats={data.settings.stats} />
         <Projects projects={data.projects} />
         <Skills />

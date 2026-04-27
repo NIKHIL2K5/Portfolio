@@ -62,7 +62,7 @@ export default function Blog({ blogs = [] }: { blogs?: any[] }) {
   })) : posts;
 
   return (
-    <section id="blog" className="bg-[#050505]" style={{ padding: "6rem 0" }}>
+    <section id="blog" className="bg-[#050505] relative" style={{ padding: "6rem 0" }}>
       <div style={{ paddingLeft: 120, paddingRight: 80 }}>
 
         {/* Header */}
@@ -171,7 +171,7 @@ export default function Blog({ blogs = [] }: { blogs?: any[] }) {
           style={{ marginTop: 36 }}
         >
           <Link
-            href="/blogs"
+            href="/blog"
             className="inline-flex items-center gap-2 text-white/35 hover:text-white transition-colors duration-300"
             style={{ fontSize: 12, fontWeight: 600, letterSpacing: "0.08em", textDecoration: "none" }}
           >

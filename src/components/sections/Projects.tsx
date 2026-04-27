@@ -129,7 +129,8 @@ export default function Projects({ projects: dynamicProjects }: { projects?: any
     gradient: "from-white/10 via-white/5 to-transparent",
     year: new Date(p.createdAt || Date.now()).getFullYear().toString(),
     tags: p.stack || [],
-    imageUrl: p.imageUrl
+    imageUrl: p.imageUrl,
+    liveUrl: p.liveUrl
   })) : [
     {
       title: "Bykahomes",
@@ -139,7 +140,8 @@ export default function Projects({ projects: dynamicProjects }: { projects?: any
       gradient: "from-violet-900/40 via-purple-900/20 to-transparent",
       year: "2024",
       tags: ["Next.js", "Tailwind", "Framer"],
-      imageUrl: ""
+      imageUrl: "",
+      liveUrl: "#"
     },
     // ... other static ones if needed
   ];
@@ -166,10 +168,10 @@ export default function Projects({ projects: dynamicProjects }: { projects?: any
       style={{ height: `calc(100vh + ${SLIDE_TOTAL}px)` }}
     >
       {/* Sticky viewport */}
-      <div className="sticky top-0 h-screen overflow-hidden flex flex-col justify-center bg-[#050505]">
+      <div className="sticky top-0 h-screen overflow-hidden flex flex-col justify-center gap-8 md:gap-16 bg-[#050505]">
 
         {/* Header */}
-        <div className="shrink-0 mb-10" style={{ paddingLeft: PAD_LEFT }}>
+        <div className="shrink-0" style={{ paddingLeft: PAD_LEFT }}>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -184,7 +186,7 @@ export default function Projects({ projects: dynamicProjects }: { projects?: any
         </div>
 
         {/* Sliding row */}
-        <div className="overflow-hidden">
+        <div className="overflow-hidden pb-12">
           <motion.div
             style={{ x }}
             className="flex items-center will-change-transform"
@@ -194,15 +196,18 @@ export default function Projects({ projects: dynamicProjects }: { projects?: any
 
             {displayProjects.map((p, i) => (
               <div key={i} style={{ marginRight: i < displayProjects.length - 1 ? CARD_GAP : 0 }}>
-                 <div
-                  className="relative flex-shrink-0 group cursor-pointer"
+                 <a
+                  href={p.liveUrl || "#"}
+                  target={p.liveUrl && p.liveUrl !== "#" ? "_blank" : undefined}
+                  rel={p.liveUrl && p.liveUrl !== "#" ? "noopener noreferrer" : undefined}
+                  className="relative flex-shrink-0 group cursor-pointer block"
                   style={{ width: CARD_W, height: 540 }}
                 >
-                  <div className="absolute inset-0 rounded-[28px] overflow-hidden border border-white/[0.07] group-hover:border-white/20 transition-all duration-700 bg-[#0d0d0d]">
+                  <div className="absolute inset-0 rounded-[28px] overflow-hidden border border-white/[0.07] group-hover:border-white/20 group-hover:-translate-y-2 group-hover:shadow-[0_30px_60px_rgba(0,0,0,0.4)] transition-all duration-700 bg-[#0d0d0d]">
                     {p.imageUrl ? (
                       <div className="absolute inset-0">
-                         <img src={p.imageUrl} alt={p.title} className="w-full h-full object-cover grayscale opacity-30 group-hover:opacity-60 group-hover:grayscale-0 transition-all duration-1000" />
-                         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+                         <img src={p.imageUrl} alt={p.title} className="w-full h-full object-cover opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000" />
+                         <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/40 to-transparent pointer-events-none" />
                       </div>
                     ) : (
                       <>
@@ -214,45 +219,55 @@ export default function Projects({ projects: dynamicProjects }: { projects?: any
                     
                     <div className="absolute top-0 left-0 right-0 h-[2px] rounded-t-[28px]"
                       style={{ background: `linear-gradient(to right, transparent, ${p.accent}60, transparent)` }} />
-                    <div className="absolute top-6 right-6 text-[90px] font-black leading-none select-none pointer-events-none"
-                      style={{ color: `${p.accent}07` }}>
-                      {String(i + 1).padStart(2, "0")}
+                    
+                    {/* Top Layer: Number */}
+                    <div className="absolute top-8 right-8 flex justify-end items-start z-10">
+                       <div className="text-[60px] font-black leading-none select-none pointer-events-none drop-shadow-2xl group-hover:scale-110 group-hover:-translate-y-1 group-hover:text-white/30 transition-all duration-700 origin-top-right"
+                         style={{ color: `rgba(255,255,255,0.15)` }}>
+                         {String(i + 1).padStart(2, "0")}
+                       </div>
                     </div>
 
-                    <div className="absolute inset-0 flex flex-col justify-between p-10">
-                      <div className="flex items-start justify-between gap-4">
-                        <span className="text-[10px] font-bold tracking-[0.35em] text-white/20 uppercase shrink-0">{p.year}</span>
-                        <div className="flex flex-wrap gap-1.5 justify-end">
-                          {p.tags.map((tag: string) => (
-                            <span key={tag} className="text-[9px] font-semibold tracking-wider uppercase px-2 py-0.5 rounded-full border"
-                              style={{ borderColor: `${p.accent}30`, color: p.accent, background: `${p.accent}10` }}>
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
+                    {/* Bottom Floating Content Card */}
+                    <div className="absolute bottom-5 left-5 right-5 z-10">
+                       <div 
+                         className="rounded-[24px] bg-[#0d0d0d]/80 backdrop-blur-3xl border border-white/[0.08] flex flex-col shadow-[0_20px_40px_rgba(0,0,0,0.5)] overflow-hidden group-hover:bg-[#111111]/90 group-hover:border-white/20 transition-all duration-500"
+                         style={{ padding: '32px' }}
+                       >
+                          <div className="group-hover:-translate-y-1 transition-transform duration-500">
+                            {/* Top-left label */}
+                            <p className="text-[10px] uppercase tracking-[0.3em] text-white/40 font-bold mb-[12px]">
+                              {p.year} • {p.category}
+                            </p>
+                            
+                            {/* Main Title */}
+                            <h3 className="text-[26px] font-bold tracking-tight leading-[1.2] mb-[12px] text-white group-hover:text-cyan-400 group-hover:drop-shadow-[0_0_15px_rgba(34,211,238,0.4)] transition-all duration-300">
+                              {p.title}
+                            </h3>
+                            
+                            {/* Description */}
+                            <p className="text-white/50 text-[15px] leading-[1.6] line-clamp-2 font-medium">
+                              {p.description}
+                            </p>
+                          </div>
 
-                      <div>
-                        <p className="text-[10px] uppercase tracking-[0.35em] text-white/25 font-semibold mb-3">{p.category}</p>
-                        <h3 className="text-4xl font-black tracking-tight leading-tight mb-4 group-hover:translate-x-1 transition-transform duration-500">
-                          {p.title}
-                        </h3>
-                        <p className="text-white/30 text-[13px] leading-relaxed group-hover:text-white/55 transition-colors duration-500 max-w-[88%]">
-                          {p.description}
-                        </p>
-                      </div>
-
-                      <div className="flex items-center justify-between">
-                        <div className="h-px w-8" style={{ background: `${p.accent}40` }} />
-                        <motion.div whileHover={{ rotate: 45, scale: 1.1 }} transition={{ duration: 0.3 }}
-                          className="w-11 h-11 rounded-full border flex items-center justify-center"
-                          style={{ borderColor: `${p.accent}30` }}>
-                          <ArrowUpRight size={18} style={{ color: p.accent }} />
-                        </motion.div>
-                      </div>
+                          <div className="flex items-center justify-between border-t border-white/[0.06]" style={{ marginTop: '20px', paddingTop: '20px' }}>
+                            <div className="flex flex-wrap gap-2 group-hover:-translate-y-1 transition-transform duration-500 delay-75">
+                              {p.tags.slice(0, 3).map((tag: string) => (
+                                <span key={tag} className="text-[11px] font-semibold tracking-wider px-3 py-1.5 rounded-full bg-white/[0.05] border border-white/[0.1] text-white/70 shadow-sm group-hover:border-white/20 transition-colors duration-500">
+                                  {tag}
+                                </span>
+                              ))}
+                            </div>
+                            <motion.div whileHover={{ rotate: 45, scale: 1.1 }} transition={{ duration: 0.3 }}
+                              className="w-12 h-12 rounded-full bg-white/[0.05] border border-white/[0.15] flex items-center justify-center shrink-0 shadow-sm group-hover:bg-cyan-500 group-hover:border-cyan-400 group-hover:text-white group-hover:shadow-[0_0_20px_rgba(34,211,238,0.4)] transition-all duration-500">
+                              <ArrowUpRight size={18} className="text-white/80 group-hover:text-white" />
+                            </motion.div>
+                          </div>
+                       </div>
                     </div>
                   </div>
-                </div>
+                </a>
               </div>
             ))}
 

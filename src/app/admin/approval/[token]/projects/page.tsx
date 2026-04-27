@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Plus, Trash2, Edit2, Loader2, Save, X, FolderOpen } from "lucide-react";
+import { Plus, Trash2, Edit2, Loader2, Save, X, FolderOpen, Briefcase } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const EMPTY_PROJECT = { name: "", description: "", stack: [], imageUrl: "", githubUrl: "", liveUrl: "" };
+const EMPTY_PROJECT = { name: "", description: "", stack: [], imageUrl: "", githubUrl: "", liveUrl: "", order: 0 };
 
 export default function AdminProjects() {
   const [projects, setProjects] = useState<any[]>([]);
@@ -13,7 +13,7 @@ export default function AdminProjects() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    fetch("/api/admin/projects").then(r => r.json()).then(d => { setProjects(d.projects || []); setLoading(false); });
+    fetch("/api/admin/projects").then(r => r.json()).then(d => { setProjects((d.projects || []).sort((a: any, b: any) => (a.order || 0) - (b.order || 0))); setLoading(false); });
   }, []);
 
   const handleSave = async (e: React.FormEvent) => {
@@ -22,7 +22,10 @@ export default function AdminProjects() {
     const res = await fetch("/api/admin/projects", { method, headers: { "Content-Type": "application/json" }, body: JSON.stringify(editing) });
     if (res.ok) {
       const { project } = await res.json();
-      setProjects(prev => method === "POST" ? [...prev, project] : prev.map(p => p._id === project._id ? project : p));
+      setProjects(prev => {
+        const newProjects = method === "POST" ? [...prev, project] : prev.map(p => p._id === project._id ? project : p);
+        return newProjects.sort((a: any, b: any) => (a.order || 0) - (b.order || 0));
+      });
       setOpen(false); setEditing(null);
     }
   };
@@ -163,7 +166,7 @@ export default function AdminProjects() {
                         <label className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em] ml-1 block">Title</label>
                         <input 
                           required 
-                          value={editing?.name} 
+                          value={editing?.name || ""} 
                           onChange={e => setEditing({ ...editing, name: e.target.value })}
                           className="w-full bg-white border border-zinc-200 rounded-xl px-[20px] py-[16px] text-[14px] font-medium text-[#0D0D0D] focus:outline-none focus:border-zinc-400 transition-all placeholder:text-zinc-300"
                           placeholder="Project Name" 
@@ -172,11 +175,27 @@ export default function AdminProjects() {
                       <div className="space-y-[10px]">
                         <label className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em] ml-1 block">Stack</label>
                         <input 
-                          value={editing?.stack?.join(", ")} 
+                          value={editing?.stack?.join(", ") || ""} 
                           onChange={e => setEditing({ ...editing, stack: e.target.value.split(",").map((s: string) => s.trim()) })}
                           className="w-full bg-white border border-zinc-200 rounded-xl px-[20px] py-[16px] text-[14px] font-medium text-[#0D0D0D] focus:outline-none focus:border-zinc-400 transition-all placeholder:text-zinc-300"
                           placeholder="Tech Stack" 
                         />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-[24px]">
+                      <div className="space-y-[10px]">
+                        <label className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em] ml-1 block">Display Order</label>
+                        <input 
+                          type="number"
+                          value={editing?.order || 0} 
+                          onChange={e => setEditing({ ...editing, order: parseInt(e.target.value) || 0 })}
+                          className="w-full bg-white border border-zinc-200 rounded-xl px-[20px] py-[16px] text-[14px] font-medium text-[#0D0D0D] focus:outline-none focus:border-zinc-400 transition-all placeholder:text-zinc-300"
+                          placeholder="e.g. 1" 
+                        />
+                      </div>
+                      <div className="space-y-[10px]">
+                        {/* Placeholder for symmetry */}
                       </div>
                     </div>
 
@@ -185,7 +204,7 @@ export default function AdminProjects() {
                       <textarea 
                         required 
                         rows={5} 
-                        value={editing?.description} 
+                        value={editing?.description || ""} 
                         onChange={e => setEditing({ ...editing, description: e.target.value })}
                         className="w-full bg-white border border-zinc-200 rounded-xl px-[20px] py-[20px] text-sm font-medium text-[#0D0D0D] focus:outline-none focus:border-zinc-400 transition-all resize-none leading-relaxed placeholder:text-zinc-300"
                         placeholder="Project Description" 
@@ -200,7 +219,7 @@ export default function AdminProjects() {
                     <div className="space-y-[10px]">
                       <label className="text-[10px] font-black text-zinc-800 uppercase tracking-[0.2em] ml-1 block">Visual Asset URL</label>
                       <input 
-                        value={editing?.imageUrl} 
+                        value={editing?.imageUrl || ""} 
                         onChange={e => setEditing({ ...editing, imageUrl: e.target.value })}
                         className="w-full bg-white border border-zinc-200 rounded-xl px-[20px] py-[16px] text-sm font-medium text-[#0D0D0D] focus:outline-none focus:border-zinc-400 transition-all placeholder:text-zinc-300"
                         placeholder="Image URL" 
@@ -211,7 +230,7 @@ export default function AdminProjects() {
                       <div className="space-y-[10px]">
                         <label className="text-[10px] font-black text-zinc-800 uppercase tracking-[0.2em] ml-1 block">Source Code</label>
                         <input 
-                          value={editing?.githubUrl} 
+                          value={editing?.githubUrl || ""} 
                           onChange={e => setEditing({ ...editing, githubUrl: e.target.value })}
                           className="w-full bg-white border border-zinc-200 rounded-xl px-[20px] py-[16px] text-sm font-medium text-[#0D0D0D] focus:outline-none focus:border-zinc-400 transition-all placeholder:text-zinc-300"
                           placeholder="GitHub Link" 
@@ -220,7 +239,7 @@ export default function AdminProjects() {
                       <div className="space-y-[10px]">
                         <label className="text-[10px] font-black text-zinc-800 uppercase tracking-[0.2em] ml-1 block">Live Endpoint</label>
                         <input 
-                          value={editing?.liveUrl} 
+                          value={editing?.liveUrl || ""} 
                           onChange={e => setEditing({ ...editing, liveUrl: e.target.value })}
                           className="w-full bg-white border border-zinc-200 rounded-xl px-[20px] py-[16px] text-sm font-medium text-[#0D0D0D] focus:outline-none focus:border-zinc-400 transition-all placeholder:text-zinc-300"
                           placeholder="Deployment Link" 

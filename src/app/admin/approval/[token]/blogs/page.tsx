@@ -156,7 +156,7 @@ export default function AdminBlogs() {
                     
                     <div className="space-y-3">
                       <label className="text-[10px] font-black text-zinc-800 uppercase tracking-[0.2em] ml-1">Post Title</label>
-                      <input required value={editing?.title} onChange={e => setEditing({ ...editing, title: e.target.value })}
+                      <input required value={editing?.title || ""} onChange={e => setEditing({ ...editing, title: e.target.value })}
                         className="w-full bg-white border border-zinc-200 rounded-xl px-6 py-4 text-base font-bold text-[#0D0D0D] focus:outline-none focus:border-zinc-400 transition-all placeholder:text-zinc-300" 
                         placeholder="ARTICLE TITLE" />
                     </div>
@@ -164,7 +164,7 @@ export default function AdminBlogs() {
                     <div className="grid grid-cols-2 gap-8">
                       <div className="space-y-3">
                         <label className="text-[10px] font-black text-zinc-800 uppercase tracking-[0.2em] ml-1">Status</label>
-                        <select value={editing?.status} onChange={e => setEditing({ ...editing, status: e.target.value })}
+                        <select value={editing?.status || "draft"} onChange={e => setEditing({ ...editing, status: e.target.value })}
                           className="w-full bg-white border border-zinc-200 rounded-xl px-6 py-4 text-sm font-medium text-[#0D0D0D] focus:outline-none focus:border-zinc-400 transition-all">
                           <option value="draft">DRAFT</option>
                           <option value="published">PUBLISHED</option>
@@ -181,20 +181,20 @@ export default function AdminBlogs() {
 
                     <div className="space-y-3">
                       <label className="text-[10px] font-black text-zinc-800 uppercase tracking-[0.2em] ml-1">Cover Image URL</label>
-                      <input value={editing?.coverImage} onChange={e => setEditing({ ...editing, coverImage: e.target.value })}
+                      <input value={editing?.coverImage || ""} onChange={e => setEditing({ ...editing, coverImage: e.target.value })}
                         className="w-full bg-white border border-zinc-200 rounded-xl px-6 py-4 text-sm font-medium text-[#0D0D0D] focus:outline-none focus:border-zinc-400 transition-all placeholder:text-zinc-300" 
                         placeholder="https://..." />
                     </div>
 
                     <div className="space-y-3">
                       <label className="text-[10px] font-black text-zinc-800 uppercase tracking-[0.2em] ml-1">Short Excerpt</label>
-                      <textarea rows={3} value={editing?.excerpt} onChange={e => setEditing({ ...editing, excerpt: e.target.value })}
+                      <textarea rows={3} value={editing?.excerpt || ""} onChange={e => setEditing({ ...editing, excerpt: e.target.value })}
                         className="w-full bg-white border border-zinc-200 rounded-xl px-6 py-5 text-sm font-medium text-[#0D0D0D] focus:outline-none focus:border-zinc-400 transition-all resize-none leading-relaxed placeholder:text-zinc-300" />
                     </div>
 
                     <div className="space-y-3">
                       <label className="text-[10px] font-black text-zinc-800 uppercase tracking-[0.2em] ml-1">Content (Markdown)</label>
-                      <textarea required rows={12} value={editing?.content} onChange={e => setEditing({ ...editing, content: e.target.value })}
+                      <textarea required rows={12} value={editing?.content || ""} onChange={e => setEditing({ ...editing, content: e.target.value })}
                         className="w-full bg-white border border-zinc-200 rounded-xl px-6 py-5 text-sm font-medium text-[#0D0D0D] focus:outline-none focus:border-zinc-400 transition-all resize-none font-mono leading-relaxed placeholder:text-zinc-300" />
                     </div>
                   </div>

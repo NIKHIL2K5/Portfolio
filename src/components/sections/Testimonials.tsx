@@ -11,6 +11,7 @@ export default function Testimonials({ testimonials: dynamicTestimonials }: { te
     role: t.role,
     company: "",
     avatar: t.name ? t.name[0] : "A",
+    avatarUrl: t.avatarUrl,
     color: "#ffffff",
     quote: t.content,
   })) : [
@@ -19,13 +20,14 @@ export default function Testimonials({ testimonials: dynamicTestimonials }: { te
       role: "Founder",
       company: "Bykahomes",
       avatar: "AM",
+      avatarUrl: null,
       color: "#a78bfa",
       quote: "Nikhil delivered a polished, fast and visually stunning website for our property platform.",
     },
   ];
 
   return (
-    <section id="testimonials" className="bg-[#050505]" style={{ padding: "6rem 0" }}>
+    <section id="testimonials" className="bg-[#050505] relative" style={{ padding: "6rem 0" }}>
       <div style={{ paddingLeft: 120, paddingRight: 80 }}>
 
         {/* Header */}
@@ -106,7 +108,7 @@ export default function Testimonials({ testimonials: dynamicTestimonials }: { te
               <div className="flex items-center gap-3">
                 {/* Avatar */}
                 <div
-                  className="flex items-center justify-center font-black flex-shrink-0"
+                  className="flex items-center justify-center font-black flex-shrink-0 overflow-hidden"
                   style={{
                     width: 36, height: 36, borderRadius: "50%",
                     background: `rgba(255,255,255,0.05)`,
@@ -116,7 +118,11 @@ export default function Testimonials({ testimonials: dynamicTestimonials }: { te
                     letterSpacing: "0.05em",
                   }}
                 >
-                  {t.avatar}
+                  {t.avatarUrl ? (
+                    <img src={t.avatarUrl} alt={t.name} className="w-full h-full object-cover" />
+                  ) : (
+                    t.avatar
+                  )}
                 </div>
 
                 {/* Name + role */}

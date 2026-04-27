@@ -43,14 +43,16 @@ export default function Experience({ experiences: dynamicExperiences }: { experi
     period: e.duration,
     role: e.title,
     company: e.company,
+    companyUrl: e.companyUrl,
     tag: "Work",
     color: "#ef4444",
-    points: e.description.split("\n"),
+    points: e.description.split("\n").filter((p: string) => p.trim() !== ""),
   })) : [
     {
       period: "2025 — Present",
       role: "Freelancer",
       company: "Self-Employed",
+      companyUrl: "",
       tag: "Ongoing",
       color: "#ef4444",
       points: [
@@ -103,96 +105,117 @@ export default function Experience({ experiences: dynamicExperiences }: { experi
           </div>
 
           <div style={{ display: "flex", flexDirection: "column", gap: 64 }}>
-            {displayExperiences.map((exp, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, x: 24 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.75, delay: 0.1, ease: primaryEase }}
-                viewport={{ once: true, margin: "-80px" }}
-                className="relative group"
-              >
-                <div
-                  className="absolute"
-                  style={{
-                    left: -40, top: 8,
-                    width: 16, height: 16,
-                    borderRadius: "50%",
-                    border: `2px solid ${exp.color}60`,
-                    background: "#050505",
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                  }}
+            {displayExperiences.map((exp, i) => {
+              const CardWrapper = exp.companyUrl ? "a" : "div";
+              return (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, x: 24 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.75, delay: 0.1, ease: primaryEase }}
+                  viewport={{ once: true, margin: "-80px" }}
+                  className="relative group"
                 >
-                  <div style={{ width: 6, height: 6, borderRadius: "50%", background: exp.color }} />
-                </div>
-
-                <div
-                  className="transition-all duration-500"
-                  style={{
-                    padding: "28px 32px",
-                    borderRadius: 16,
-                    border: "1px solid rgba(255,255,255,0.06)",
-                    background: "rgba(255,255,255,0.02)",
-                    maxWidth: 760,
-                  }}
-                >
-                  <div className="flex items-center gap-4" style={{ marginBottom: 12 }}>
-                    <span
-                      className="font-mono font-bold"
-                      style={{ fontSize: 11, color: "rgba(255,255,255,0.3)", letterSpacing: "0.08em" }}
-                    >
-                      {exp.period}
-                    </span>
-                    <span
-                      className="font-semibold"
-                      style={{
-                        fontSize: 9, letterSpacing: "0.3em", textTransform: "uppercase",
-                        padding: "2px 8px", borderRadius: 20,
-                        border: `1px solid ${exp.color}40`,
-                        color: exp.color,
-                        background: `${exp.color}10`,
-                      }}
-                    >
-                      {exp.tag}
-                    </span>
+                  <div
+                    className="absolute"
+                    style={{
+                      left: -40, top: 8,
+                      width: 16, height: 16,
+                      borderRadius: "50%",
+                      border: `2px solid ${exp.color}60`,
+                      background: "#050505",
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                    }}
+                  >
+                    <div style={{ width: 6, height: 6, borderRadius: "50%", background: exp.color }} />
                   </div>
 
-                  <h3
-                    className="font-black"
-                    style={{ fontSize: "clamp(1.4rem, 3vw, 1.9rem)", marginBottom: 20, lineHeight: 1.15 }}
+                  <CardWrapper
+                    href={exp.companyUrl || undefined}
+                    target={exp.companyUrl ? "_blank" : undefined}
+                    rel={exp.companyUrl ? "noopener noreferrer" : undefined}
+                    className="block transition-all duration-500 hover:-translate-y-1"
+                    style={{
+                      padding: "32px 40px",
+                      borderRadius: 24,
+                      border: "1px solid rgba(255,255,255,0.06)",
+                      background: "rgba(255,255,255,0.02)",
+                      maxWidth: 800,
+                      cursor: exp.companyUrl ? "pointer" : "default",
+                    }}
                   >
-                    {exp.role}
-                    {" "}
-                    <span style={{ color: "rgba(255,255,255,0.3)", fontWeight: 400, fontSize: "0.75em" }}>
-                      @ {exp.company}
-                    </span>
-                  </h3>
+                    <style jsx>{`
+                      .group:hover .block {
+                        border-color: rgba(255,255,255,0.15) !important;
+                        background: rgba(255,255,255,0.04) !important;
+                        box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+                      }
+                    `}</style>
+                    <div className="flex flex-col gap-6">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                          <span
+                            className="font-mono font-bold"
+                            style={{ fontSize: 11, color: "rgba(255,255,255,0.3)", letterSpacing: "0.08em" }}
+                          >
+                            {exp.period}
+                          </span>
+                          <span
+                            className="font-semibold"
+                            style={{
+                              fontSize: 9, letterSpacing: "0.3em", textTransform: "uppercase",
+                              padding: "4px 12px", borderRadius: 20,
+                              border: `1px solid ${exp.color}40`,
+                              color: exp.color,
+                              background: `${exp.color}10`,
+                            }}
+                          >
+                            {exp.tag}
+                          </span>
+                        </div>
+                      </div>
 
-                  <ul style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                    {exp.points.map((pt, pi) => (
-                      <motion.li
-                        key={pi}
-                        initial={{ opacity: 0, x: -8 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.2 + pi * 0.07 }}
-                        viewport={{ once: true }}
-                        className="flex items-start gap-3"
-                        style={{ color: "rgba(255,255,255,0.45)", fontSize: 14, lineHeight: 1.65 }}
+                      <h3
+                        className="font-black text-white group-hover:text-white transition-colors"
+                        style={{ fontSize: "clamp(1.5rem, 4vw, 2.2rem)", lineHeight: 1.1 }}
                       >
-                        <span
-                          className="flex-shrink-0 rounded-full"
-                          style={{
-                            marginTop: 7, width: 5, height: 5,
-                            background: exp.color, opacity: 0.7,
-                          }}
-                        />
-                        {pt}
-                      </motion.li>
-                    ))}
-                  </ul>
-                </div>
-              </motion.div>
-            ))}
+                        {exp.role}
+                        {" "}
+                        <span className="text-white/20 font-medium ml-2">@</span>
+                        {" "}
+                        <span className="text-white/40 font-bold group-hover:text-white transition-colors underline underline-offset-8 decoration-white/5">
+                          {exp.company}
+                        </span>
+                      </h3>
+
+                      <ul className="space-y-4">
+                        {exp.points.map((pt, pi) => (
+                          <motion.li
+                            key={pi}
+                            initial={{ opacity: 0, x: -8 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            transition={{ delay: 0.2 + pi * 0.07 }}
+                            viewport={{ once: true }}
+                            className="flex items-start gap-4"
+                            style={{ color: "rgba(255,255,255,0.45)", fontSize: 15, lineHeight: 1.7 }}
+                          >
+                            <span
+                              className="flex-shrink-0 rounded-full"
+                              style={{
+                                marginTop: 10, width: 6, height: 6,
+                                background: exp.color, opacity: 0.8,
+                                boxShadow: `0 0 10px ${exp.color}40`
+                              }}
+                            />
+                            {pt}
+                          </motion.li>
+                        ))}
+                      </ul>
+                    </div>
+                  </CardWrapper>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </div>

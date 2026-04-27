@@ -4,7 +4,12 @@ import { useEffect, useState } from "react";
 import { Plus, Trash2, Edit2, Loader2, Save, X, Clock } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const EMPTY = { title: "", company: "", duration: "", description: "" };
+const EMPTY = { title: "", company: "", duration: "", description: "", startDate: "", endDate: "", isPresent: false, companyUrl: "" };
+
+const formatDate = (date: string) => {
+  if (!date) return "";
+  return new Date(date).toLocaleDateString("en-US", { month: "short", year: "numeric" });
+};
 
 export default function AdminExperience() {
   const [experiences, setExperiences] = useState<any[]>([]);
@@ -19,7 +24,16 @@ export default function AdminExperience() {
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     const method = editing?._id ? "PUT" : "POST";
-    const res = await fetch("/api/admin/experience", { method, headers: { "Content-Type": "application/json" }, body: JSON.stringify(editing) });
+    
+    // Auto-generate duration string from dates if provided
+    let finalEditing = { ...editing };
+    if (editing.startDate) {
+      const startStr = formatDate(editing.startDate);
+      const endStr = editing.isPresent ? "Present" : (editing.endDate ? formatDate(editing.endDate) : "");
+      finalEditing.duration = `${startStr} ${endStr ? `– ${endStr}` : ""}`.trim();
+    }
+
+    const res = await fetch("/api/admin/experience", { method, headers: { "Content-Type": "application/json" }, body: JSON.stringify(finalEditing) });
     if (res.ok) {
       const { experience } = await res.json();
       setExperiences(prev => method === "POST" ? [...prev, experience] : prev.map(ex => ex._id === experience._id ? experience : ex));
@@ -140,28 +154,72 @@ export default function AdminExperience() {
                     
                     <div className="space-y-3">
                       <label className="text-[10px] font-black text-zinc-800 uppercase tracking-[0.2em] ml-1">Job Title</label>
-                      <input required value={editing?.title} onChange={e => setEditing({ ...editing, title: e.target.value })}
+                      <input required value={editing?.title || ""} onChange={e => setEditing({ ...editing, title: e.target.value })}
                         className="w-full bg-white border border-zinc-200 rounded-xl px-6 py-4 text-sm font-medium text-[#0D0D0D] focus:outline-none focus:border-zinc-400 transition-all placeholder:text-zinc-300" 
                         placeholder="e.g. SENIOR DEVELOPER" />
                     </div>
 
-                    <div className="grid grid-cols-2 gap-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                       <div className="space-y-3">
                         <label className="text-[10px] font-black text-zinc-800 uppercase tracking-[0.2em] ml-1">Company</label>
-                        <input required value={editing?.company} onChange={e => setEditing({ ...editing, company: e.target.value })}
+                        <input required value={editing?.company || ""} onChange={e => setEditing({ ...editing, company: e.target.value })}
                           className="w-full bg-white border border-zinc-200 rounded-xl px-6 py-4 text-sm font-medium text-[#0D0D0D] focus:outline-none focus:border-zinc-400 transition-all placeholder:text-zinc-300" />
                       </div>
                       <div className="space-y-3">
-                        <label className="text-[10px] font-black text-zinc-800 uppercase tracking-[0.2em] ml-1">Duration</label>
-                        <input required value={editing?.duration} onChange={e => setEditing({ ...editing, duration: e.target.value })}
+                        <label className="text-[10px] font-black text-zinc-800 uppercase tracking-[0.2em] ml-1">Company / Social Link</label>
+                        <input value={editing?.companyUrl || ""} onChange={e => setEditing({ ...editing, companyUrl: e.target.value })}
                           className="w-full bg-white border border-zinc-200 rounded-xl px-6 py-4 text-sm font-medium text-[#0D0D0D] focus:outline-none focus:border-zinc-400 transition-all placeholder:text-zinc-300" 
-                          placeholder="2022 – PRESENT" />
+                          placeholder="https://company.com" />
+                      </div>
+                    </div>
+
+                    <div className="bg-zinc-50 rounded-[28px] p-8 space-y-8 border border-zinc-100">
+                      <p className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.4em]">Timeline Protocol</p>
+                      
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                        <div className="space-y-3">
+                          <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.2em] ml-1">Start Date</label>
+                          <input 
+                            type="date"
+                            value={editing?.startDate ? new Date(editing.startDate).toISOString().split('T')[0] : ""} 
+                            onChange={e => setEditing({ ...editing, startDate: e.target.value })}
+                            className="w-full bg-white border border-zinc-200 rounded-xl px-6 py-4 text-sm font-medium text-[#0D0D0D] focus:outline-none focus:border-zinc-400 transition-all" 
+                          />
+                        </div>
+
+                        <div className="space-y-3">
+                          <div className="flex items-center justify-between ml-1">
+                            <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.2em]">End Date</label>
+                            <label className="flex items-center gap-2 cursor-pointer group">
+                              <input 
+                                type="checkbox" 
+                                checked={editing?.isPresent} 
+                                onChange={e => setEditing({ ...editing, isPresent: e.target.checked })}
+                                className="w-4 h-4 rounded border-zinc-300 text-[#0D0D0D] focus:ring-0 transition-all"
+                              />
+                              <span className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.1em] group-hover:text-[#0D0D0D] transition-colors">Currently Work Here</span>
+                            </label>
+                          </div>
+                          {!editing?.isPresent && (
+                            <input 
+                              type="date"
+                              value={editing?.endDate ? new Date(editing.endDate).toISOString().split('T')[0] : ""} 
+                              onChange={e => setEditing({ ...editing, endDate: e.target.value })}
+                              className="w-full bg-white border border-zinc-200 rounded-xl px-6 py-4 text-sm font-medium text-[#0D0D0D] focus:outline-none focus:border-zinc-400 transition-all" 
+                            />
+                          )}
+                          {editing?.isPresent && (
+                            <div className="w-full bg-zinc-100 border border-zinc-200 rounded-xl px-6 py-4 text-sm font-black text-zinc-400 uppercase tracking-[0.2em] flex items-center justify-center">
+                              Present
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </div>
 
                     <div className="space-y-3">
                       <label className="text-[10px] font-black text-zinc-800 uppercase tracking-[0.2em] ml-1">Description</label>
-                      <textarea required rows={5} value={editing?.description} onChange={e => setEditing({ ...editing, description: e.target.value })}
+                      <textarea required rows={5} value={editing?.description || ""} onChange={e => setEditing({ ...editing, description: e.target.value })}
                         className="w-full bg-white border border-zinc-200 rounded-xl px-6 py-5 text-sm font-medium text-[#0D0D0D] focus:outline-none focus:border-zinc-400 transition-all resize-none leading-relaxed placeholder:text-zinc-300" />
                     </div>
                   </div>

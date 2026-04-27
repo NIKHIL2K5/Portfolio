@@ -142,25 +142,25 @@ export default function AdminTestimonials() {
                     <div className="grid grid-cols-2 gap-8">
                       <div className="space-y-3">
                         <label className="text-[10px] font-black text-zinc-800 uppercase tracking-[0.2em] ml-1">Client Name</label>
-                        <input required value={editing?.name} onChange={e => setEditing({ ...editing, name: e.target.value })}
+                        <input required value={editing?.name || ""} onChange={e => setEditing({ ...editing, name: e.target.value })}
                           className="w-full bg-white border border-zinc-200 rounded-xl px-6 py-4 text-sm font-medium text-[#0D0D0D] focus:outline-none focus:border-zinc-400 transition-all placeholder:text-zinc-300" />
                       </div>
                       <div className="space-y-3">
                         <label className="text-[10px] font-black text-zinc-800 uppercase tracking-[0.2em] ml-1">Professional Role</label>
-                        <input value={editing?.role} onChange={e => setEditing({ ...editing, role: e.target.value })}
+                        <input value={editing?.role || ""} onChange={e => setEditing({ ...editing, role: e.target.value })}
                           className="w-full bg-white border border-zinc-200 rounded-xl px-6 py-4 text-sm font-medium text-[#0D0D0D] focus:outline-none focus:border-zinc-400 transition-all placeholder:text-zinc-200" placeholder="CEO AT COMPANY" />
                       </div>
                     </div>
 
                     <div className="space-y-3">
                       <label className="text-[10px] font-black text-zinc-800 uppercase tracking-[0.2em] ml-1">Avatar Asset URL</label>
-                      <input value={editing?.avatarUrl} onChange={e => setEditing({ ...editing, avatarUrl: e.target.value })}
+                      <input value={editing?.avatarUrl || ""} onChange={e => setEditing({ ...editing, avatarUrl: e.target.value })}
                         className="w-full bg-white border border-zinc-200 rounded-xl px-6 py-4 text-sm font-medium text-[#0D0D0D] focus:outline-none focus:border-zinc-400 transition-all placeholder:text-zinc-200" placeholder="https://..." />
                     </div>
 
                     <div className="space-y-3">
                       <label className="text-[10px] font-black text-zinc-800 uppercase tracking-[0.2em] ml-1">Testimonial Content</label>
-                      <textarea required rows={6} value={editing?.content} onChange={e => setEditing({ ...editing, content: e.target.value })}
+                      <textarea required rows={6} value={editing?.content || ""} onChange={e => setEditing({ ...editing, content: e.target.value })}
                         className="w-full bg-white border border-zinc-200 rounded-xl px-6 py-5 text-sm font-medium text-[#0D0D0D] focus:outline-none focus:border-zinc-400 transition-all resize-none leading-relaxed placeholder:text-zinc-200" placeholder="WHAT THEY SAID..." />
                     </div>
                   </div>

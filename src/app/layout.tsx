@@ -13,6 +13,11 @@ const outfit = Outfit({
 export const metadata: Metadata = {
   title: "Nikhil | Portfolio - Full Stack Developer",
   description: "Explore the signature portfolio of Nikhil, a Full Stack Developer specializing in AI, Automation, and App Development.",
+  icons: {
+    icon: "/nikhilhomepage.png",
+    shortcut: "/nikhilhomepage.png",
+    apple: "/nikhilhomepage.png",
+  }
 };
 
 import PageTransition from "@/components/animations/PageTransition";
