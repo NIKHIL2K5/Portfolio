@@ -61,12 +61,10 @@ export default function About({ stats: dynamicStats }: { stats?: any }) {
                 style={{ 
                     left: springX, 
                     top: springY,
-                }}
-                className="absolute -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full z-1 pointer-events-none"
-                style={{
                     background: 'radial-gradient(circle, rgba(0,210,255,0.12) 0%, rgba(0,210,255,0.05) 30%, transparent 70%)',
                     filter: 'blur(40px)',
                 }}
+                className="absolute -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full z-1 pointer-events-none"
             />
         )}
 

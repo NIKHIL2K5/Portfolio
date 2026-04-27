@@ -189,7 +189,7 @@ export default function Experience({ experiences: dynamicExperiences }: { experi
                       </h3>
 
                       <ul className="space-y-4">
-                        {exp.points.map((pt, pi) => (
+                        {exp.points.map((pt: string, pi: number) => (
                           <motion.li
                             key={pi}
                             initial={{ opacity: 0, x: -8 }}

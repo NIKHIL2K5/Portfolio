@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { Loader2, ShieldCheck, ShieldAlert } from "lucide-react";
 
-export default function AdminLogin() {
+function LoginContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
@@ -119,5 +119,13 @@ export default function AdminLogin() {
         </p>
       </motion.div>
     </div>
+  );
+}
+
+export default function AdminLogin() {
+  return (
+    <Suspense>
+      <LoginContent />
+    </Suspense>
   );
 }
