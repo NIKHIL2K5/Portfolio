@@ -60,8 +60,7 @@ const projects: Project[] = [
   },
 ];
 
-// Total px to slide = (cards - 1) steps × (card width + gap) + "more" card width
-const SLIDE_TOTAL = (projects.length - 1) * (CARD_W + CARD_GAP) + 260;
+// No module-level SLIDE_TOTAL here to avoid confusion
 
 function ProjectCard({ project, index }: { project: Project; index: number }) {
   return (
@@ -146,7 +145,7 @@ export default function Projects({ projects: dynamicProjects }: { projects?: any
     // ... other static ones if needed
   ];
 
-  const SLIDE_TOTAL = (displayProjects.length - 1) * (CARD_W + CARD_GAP) + 260;
+  const totalSlideWidth = (displayProjects.length - 1) * (CARD_W + CARD_GAP) + 260;
 
   // Track scroll progress across the full height of the outer container
   const { scrollYProgress } = useScroll({
@@ -154,24 +153,109 @@ export default function Projects({ projects: dynamicProjects }: { projects?: any
     offset: ["start start", "end end"],
   });
 
-  // Map scroll 0→1 to pixel translation 0 → -SLIDE_TOTAL
-  const rawX = useTransform(scrollYProgress, [0, 1], [0, -SLIDE_TOTAL]);
+  // Map scroll 0→1 to pixel translation 0 → -totalSlideWidth
+  const rawX = useTransform(scrollYProgress, [0, 1], [0, -totalSlideWidth]);
 
   // Spring for buttery smooth motion
   const x = useSpring(rawX, { stiffness: 70, damping: 22, mass: 0.5 });
 
   return (
-    <div
-      ref={outerRef}
-      id="projects"
-      className="relative bg-[#050505]"
-      style={{ height: `calc(100vh + ${SLIDE_TOTAL}px)` }}
-    >
+    <div ref={outerRef} id="projects" className="relative bg-[#050505]">
+      
+      {/* ─── MOBILE VIEW (Vertical Stack) ─── */}
+      <div className="block lg:hidden py-16 flex flex-col gap-10" style={{ padding: "clamp(48px, 8vw, 96px) clamp(16px, 5vw, 40px)" }}>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+        >
+          <p className="text-white/25 text-[10px] tracking-[0.45em] uppercase font-bold mb-3">Portfolio</p>
+          <h2 className="text-[clamp(2rem,10vw,3.5rem)] font-black tracking-tighter leading-[0.9]">
+            My best <span className="text-white/20">projects</span>
+          </h2>
+        </motion.div>
+
+        <div className="flex flex-col gap-8">
+          {displayProjects.map((p, i) => (
+            <a
+              key={i}
+              href={p.liveUrl || "#"}
+              target={p.liveUrl && p.liveUrl !== "#" ? "_blank" : undefined}
+              rel={p.liveUrl && p.liveUrl !== "#" ? "noopener noreferrer" : undefined}
+              className="relative group cursor-pointer block w-full rounded-[24px] overflow-hidden border border-white/[0.07] bg-[#0d0d0d]"
+            >
+              <div className="relative aspect-[4/3] sm:aspect-square w-full">
+                {p.imageUrl ? (
+                  <>
+                    <img src={p.imageUrl} alt={p.title} className="w-full h-full object-cover opacity-80" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/40 to-transparent" />
+                  </>
+                ) : (
+                  <>
+                    <div className={`absolute inset-0 bg-gradient-to-br ${p.gradient} opacity-70`} />
+                    <div className="absolute top-0 right-0 w-48 h-48 rounded-full blur-[60px] opacity-20" style={{ background: p.accent }} />
+                  </>
+                )}
+                
+                <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: `linear-gradient(to right, transparent, ${p.accent}60, transparent)` }} />
+                
+                <div className="absolute top-6 right-6 flex justify-end items-start z-10">
+                   <div className="text-[48px] font-black leading-none select-none drop-shadow-lg" style={{ color: `rgba(255,255,255,0.15)` }}>
+                     {String(i + 1).padStart(2, "0")}
+                   </div>
+                </div>
+
+                <div className="absolute bottom-0 left-0 right-0 z-10 p-5">
+                   <div className="rounded-[20px] bg-[#0d0d0d]/90 backdrop-blur-3xl border border-white/[0.08] flex flex-col shadow-[0_20px_40px_rgba(0,0,0,0.5)] overflow-hidden p-6">
+                      <div>
+                        <p className="text-[9px] uppercase tracking-[0.3em] text-white/40 font-bold mb-2">
+                          {p.year} • {p.category}
+                        </p>
+                        <h3 className="text-[22px] font-bold tracking-tight leading-[1.2] mb-2 text-white">
+                          {p.title}
+                        </h3>
+                        <p className="text-white/50 text-[14px] leading-[1.5] line-clamp-2 font-medium">
+                          {p.description}
+                        </p>
+                      </div>
+
+                      <div className="flex items-center justify-between border-t border-white/[0.06] mt-4 pt-4">
+                        <div className="flex flex-wrap gap-2">
+                          {p.tags.slice(0, 2).map((tag: string) => (
+                            <span key={tag} className="text-[10px] font-semibold tracking-wider px-2.5 py-1 rounded-full bg-white/[0.05] border border-white/[0.1] text-white/70">
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                        <div className="w-10 h-10 rounded-full bg-white/[0.05] border border-white/[0.15] flex items-center justify-center shrink-0">
+                          <ArrowUpRight size={16} className="text-white/80" />
+                        </div>
+                      </div>
+                   </div>
+                </div>
+              </div>
+            </a>
+          ))}
+
+          <div className="flex flex-col items-center justify-center gap-4 py-8">
+            <h4 className="text-xl font-black text-white/20 leading-tight tracking-tight text-center">
+              More alchemy<br />coming soon…
+            </h4>
+          </div>
+        </div>
+      </div>
+
+      {/* ─── DESKTOP VIEW (Horizontal Slider) ─── */}
+      <div 
+        className="hidden lg:block relative"
+        style={{ height: `calc(100vh + ${totalSlideWidth}px)` }}
+      >
       {/* Sticky viewport */}
       <div className="sticky top-0 h-screen overflow-hidden flex flex-col justify-center gap-8 md:gap-16 bg-[#050505]">
 
         {/* Header */}
-        <div className="shrink-0" style={{ paddingLeft: PAD_LEFT }}>
+        <div className="shrink-0 lg:pl-[12%]">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -289,5 +373,6 @@ export default function Projects({ projects: dynamicProjects }: { projects?: any
         </div>
       </div>
     </div>
-  );
+  </div>
+);
 }

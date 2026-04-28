@@ -96,7 +96,7 @@ export default function Contact({ settings }: { settings?: any }) {
         <div className="absolute inset-0 bg-noise opacity-5" />
       </div>
 
-      <div className="relative z-10 px-6 sm:px-12 md:px-20 lg:pl-[120px] lg:pr-[80px]">
+      <div className="relative z-10" style={{ padding: "0 clamp(20px, 12%, 200px)" }}>
 
         {/* ── Header ── */}
         <motion.div
@@ -113,7 +113,8 @@ export default function Contact({ settings }: { settings?: any }) {
             </span>
           </div>
           <h2
-            className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-tight text-white leading-[0.95]"
+            className="font-black tracking-tight text-white leading-[0.95]"
+            style={{ fontSize: "clamp(2.4rem, 9vw, 9rem)" }}
           >
             Let&apos;s Build
             <br />

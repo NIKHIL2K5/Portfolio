@@ -28,7 +28,7 @@ export default function Testimonials({ testimonials: dynamicTestimonials }: { te
 
   return (
     <section id="testimonials" className="bg-[#050505] relative" style={{ padding: "6rem 0" }}>
-      <div style={{ paddingLeft: 120, paddingRight: 80 }}>
+      <div className="relative z-10" style={{ padding: "0 clamp(20px, 12%, 200px)" }}>
 
         {/* Header */}
         <motion.div
@@ -57,7 +57,7 @@ export default function Testimonials({ testimonials: dynamicTestimonials }: { te
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))",
+            gridTemplateColumns: "repeat(auto-fill, minmax(min(320px, 100%), 1fr))",
             gap: 24,
           }}
         >

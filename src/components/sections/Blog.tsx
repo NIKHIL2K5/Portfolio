@@ -63,7 +63,7 @@ export default function Blog({ blogs = [] }: { blogs?: any[] }) {
 
   return (
     <section id="blog" className="bg-[#050505] relative" style={{ padding: "6rem 0" }}>
-      <div style={{ paddingLeft: 120, paddingRight: 80 }}>
+      <div className="relative z-10" style={{ padding: "0 clamp(20px, 12%, 200px)" }}>
 
         {/* Header */}
         <motion.div
@@ -106,7 +106,7 @@ export default function Blog({ blogs = [] }: { blogs?: any[] }) {
                 textDecoration: "none",
               }}
             >
-              <div className="flex items-start justify-between gap-8">
+              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 sm:gap-8">
                 {/* Left */}
                 <div style={{ flex: 1 }}>
                   {/* Meta row */}

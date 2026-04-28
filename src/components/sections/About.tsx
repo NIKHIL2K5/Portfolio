@@ -49,7 +49,7 @@ export default function About({ stats: dynamicStats }: { stats?: any }) {
       className="relative py-40 bg-[#010101] overflow-hidden group/section"
     >
       
-      {/* ── Interactive Electric Background ── */}
+      {/* ΓöÇΓöÇ Interactive Electric Background ΓöÇΓöÇ */}
       <div className="absolute inset-0 pointer-events-none">
         
         {/* Base Ambient - Deep Navy */}
@@ -104,11 +104,11 @@ export default function About({ stats: dynamicStats }: { stats?: any }) {
         <div className="absolute inset-0 bg-noise opacity-[0.02] mix-blend-overlay" />
       </div>
 
-      <div className="relative z-10" style={{ padding: '0 80px' }}>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 xl:gap-32 items-center">
+      <div className="relative z-10 px-5 sm:px-8 lg:px-0" style={{ paddingLeft: "clamp(20px, 12%, 160px)", paddingRight: "clamp(20px, 8%, 120px)" }}>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 xl:gap-32 items-center">
 
           {/* ─── LEFT: Text content ─── */}
-          <div className="order-2 lg:order-1" style={{ paddingLeft: '40px' }}>
+          <div className="order-2 lg:order-1">
 
             {/* Section label */}
             <motion.div
@@ -130,14 +130,14 @@ export default function About({ stats: dynamicStats }: { stats?: any }) {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, ease: primaryEase }}
               viewport={{ once: true }}
-              className="text-5xl md:text-6xl xl:text-7xl font-black tracking-tighter leading-[0.9] mb-14 text-white"
+              className="text-[2.6rem] md:text-6xl xl:text-7xl font-black tracking-tighter leading-[0.9] mb-8 lg:mb-14 text-white"
             >
               Crafting Digital<br />
               <span className="text-white/10">Soul & Code.</span>
             </motion.h2>
 
             {/* Body text */}
-            <div className="space-y-8 mb-16">
+            <div className="space-y-5 lg:space-y-8 mb-10 lg:mb-16">
               {[
                 "I am a Full Stack Developer and Freelancer driven by the pursuit of building high-performance, scalable systems that feel like second nature to the user.",
                 "As a digital architect, I believe that code is more than just instructions — it's the alchemy of logic and creativity that solves human problems.",
@@ -149,7 +149,7 @@ export default function About({ stats: dynamicStats }: { stats?: any }) {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2 + i * 0.15, duration: 0.9, ease: primaryEase }}
                   viewport={{ once: true }}
-                  className="text-white/40 text-[17px] leading-relaxed font-medium hover:text-white/80 transition-all duration-700 max-w-xl"
+                  className="text-white/40 text-[14px] lg:text-[17px] leading-relaxed font-medium hover:text-white/80 transition-all duration-700 max-w-xl"
                 >
                   {text}
                 </motion.p>
@@ -162,7 +162,7 @@ export default function About({ stats: dynamicStats }: { stats?: any }) {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6, duration: 0.8 }}
               viewport={{ once: true }}
-              className="flex items-center gap-16 pt-14 border-t border-white/[0.04]"
+              className="flex flex-wrap items-center gap-8 lg:gap-16 pt-8 lg:pt-14 border-t border-white/[0.04]"
             >
               {displayStats.map((stat, i) => (
                 <div key={i} className="group cursor-default">
@@ -180,7 +180,7 @@ export default function About({ stats: dynamicStats }: { stats?: any }) {
             </motion.div>
           </div>
 
-          {/* ─── RIGHT: Portrait ─── */}
+          {/* ΓöÇΓöÇΓöÇ RIGHT: Portrait ΓöÇΓöÇΓöÇ */}
           <motion.div
             className="order-1 lg:order-2 flex justify-center items-center relative"
             initial={{ opacity: 0, scale: 0.95, x: 40 }}

@@ -75,7 +75,7 @@ export default function Experience({ experiences: dynamicExperiences }: { experi
     >
       <div className="absolute top-1/3 right-0 w-[400px] h-[400px] bg-red-600/4 blur-[140px] rounded-full pointer-events-none" />
 
-      <div style={{ paddingLeft: 120, paddingRight: 80 }}>
+      <div className="relative z-10" style={{ padding: "0 clamp(20px, 12%, 200px)" }}>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -92,7 +92,7 @@ export default function Experience({ experiences: dynamicExperiences }: { experi
           </h2>
         </motion.div>
 
-        <div className="relative" style={{ paddingLeft: 32 }}>
+        <div className="relative" style={{ paddingLeft: "clamp(20px, 3vw, 32px)" }}>
           <div
             className="absolute top-0 bottom-0"
             style={{ left: 0, width: 1, background: "rgba(255,255,255,0.06)" }}

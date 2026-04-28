@@ -1,135 +1,186 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowLeft, Clock, Tag, ArrowUpRight } from "lucide-react";
+import { ArrowLeft, Clock, Calendar } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-const primaryEase = [0.85, 0, 0.15, 1] as any;
+const ease = [0.16, 1, 0.3, 1] as any;
 
 export default function BlogsPage() {
   const [blogs, setBlogs] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     fetch("/api/portfolio")
-      .then((res) => res.json())
+      .then((r) => r.json())
       .then((data) => {
         setBlogs(data.blogs || []);
-        setLoading(false);
-      });
+        setLoaded(true);
+      })
+      .catch(() => setLoaded(true));
   }, []);
 
-  const getReadTime = (content: string) => {
-    const wordsPerMinute = 200;
-    const words = content?.split(/\s+/).length || 0;
-    const minutes = Math.ceil(words / wordsPerMinute);
-    return `${minutes} min read`;
+  const readTime = (content: string) => {
+    const mins = Math.ceil((content?.split(/\s+/).length || 0) / 200);
+    return `${mins} min read`;
   };
 
-  const formatDate = (dateStr: string) => {
-    const date = new Date(dateStr);
-    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-  };
+  const fmtDate = (d: string) =>
+    new Date(d).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
 
   return (
-    <main className="min-h-screen bg-[#020202] text-white selection:bg-cyan-500/30 overflow-x-hidden">
-      
-      {/* ── Background Polish ── */}
+    <main className="min-h-screen bg-[#050505] text-white overflow-x-hidden">
+      {/* Ambient glow */}
       <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute top-0 right-[-10%] w-[1000px] h-[1000px] bg-cyan-600/[0.02] blur-[150px] rounded-full" />
-        <div className="absolute inset-0 bg-noise opacity-[0.02] mix-blend-overlay" />
-        
-        {/* Decorative Circular Path Glow (Right) */}
-        <div className="absolute right-[-20%] top-0 bottom-0 w-[800px] border-l border-white/[0.03] rounded-full z-0 pointer-events-none" 
-             style={{ maskImage: 'linear-gradient(to bottom, transparent, black 50%, transparent)' }} />
+        <div className="absolute top-[-20%] right-[-10%] w-[700px] h-[700px] bg-cyan-600/[0.025] blur-[180px] rounded-full" />
+        <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-red-600/[0.02] blur-[150px] rounded-full" />
       </div>
 
-      <div className="relative z-10 max-w-screen-2xl mx-auto px-6 md:px-10 py-20 md:py-40">
-        
-        {/* Navigation */}
-        <nav className="mb-32">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
+      <div
+        className="relative z-10 mx-auto"
+        style={{ maxWidth: 1100, padding: "clamp(32px, 6vw, 80px) clamp(20px, 6vw, 80px)" }}
+      >
+        {/* Back nav */}
+        <motion.nav
+          initial={{ opacity: 0, y: -12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          style={{ marginBottom: "clamp(40px, 6vw, 72px)" }}
+        >
+          <Link
+            href="/"
+            className="inline-flex items-center gap-3 text-white/30 hover:text-white transition-colors duration-300 no-underline group"
           >
-            <Link 
-              href="/"
-              className="group flex items-center gap-6 text-white/30 hover:text-white transition-all duration-500 no-underline"
-            >
-              <div className="w-14 h-14 rounded-full border border-white/10 flex items-center justify-center group-hover:border-cyan-500/50 group-hover:bg-cyan-500/5 transition-all duration-500">
-                <ArrowLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
-              </div>
-              <div>
-                <p className="text-[12px] font-black uppercase tracking-[0.5em] leading-none mb-1 text-white">Index</p>
-                <p className="text-[10px] font-bold text-white/20 uppercase tracking-widest leading-none">Home</p>
-              </div>
-            </Link>
-          </motion.div>
-        </nav>
+            <div className="w-9 h-9 rounded-full border border-white/10 flex items-center justify-center group-hover:border-white/30 transition-all duration-300">
+              <ArrowLeft size={15} />
+            </div>
+            <span className="text-[11px] font-bold uppercase tracking-[0.35em]">Back to Home</span>
+          </Link>
+        </motion.nav>
 
-        {/* Heading */}
-        <header className="mb-48">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+        {/* Page header */}
+        <motion.header
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, ease }}
+          style={{ marginBottom: "clamp(48px, 8vw, 100px)" }}
+        >
+          <div className="flex items-center gap-4 mb-6">
+            <div className="w-10 h-[2px] bg-cyan-500" />
+            <span className="text-cyan-400 text-[10px] font-black uppercase tracking-[0.7em]">
+              The Archive
+            </span>
+          </div>
+
+          <h1
+            className="font-black tracking-tighter leading-[0.88]"
+            style={{ fontSize: "clamp(3rem, 10vw, 8rem)", marginBottom: "clamp(16px, 3vw, 32px)" }}
           >
-            <div className="flex items-center gap-4 mb-14">
-              <div className="w-12 h-[2px] bg-cyan-500" />
-              <span className="text-cyan-400 text-[11px] font-black tracking-[0.8em] uppercase">The Archive</span>
-            </div>
-            
-            <h1 className="text-5xl sm:text-7xl md:text-[11rem] font-black tracking-tighter mb-10 md:mb-16 leading-[0.9] md:leading-[0.8] break-words">
-              Writings<br />
-              <span className="text-white/10">Vol. 01</span>
-            </h1>
-            
-            <div className="max-w-2xl">
-              <p className="text-white/40 text-2xl font-medium leading-relaxed mb-20">
-                A repository of technical research, architectural thoughts, and creative philosophy. Exploring the frontiers of digital engineering.
-              </p>
-            </div>
+            Writings
+            <br />
+            <span className="text-white/10">Vol. 01</span>
+          </h1>
 
-            {/* Overall Meta Row */}
-            <div className="flex items-center gap-8 text-[11px] font-black uppercase tracking-[0.4em] text-white/20 pb-16 border-b border-white/5">
-               <span className="text-cyan-400">Technical</span>
-               <span className="opacity-40">|</span>
-               <span>1 Min Read</span>
-               <span className="opacity-40">|</span>
-               <span>Apr 26, 2026</span>
-            </div>
-          </motion.div>
-        </header>
+          <p
+            className="text-white/35 font-medium leading-relaxed"
+            style={{ fontSize: "clamp(0.95rem, 2vw, 1.2rem)", maxWidth: 520 }}
+          >
+            Technical research, architectural thoughts, and creative philosophy. Exploring the frontiers of digital engineering.
+          </p>
+        </motion.header>
 
-        {/* Blogs List */}
-        <div className="space-y-48">
-          {loading ? (
-            <div className="space-y-12">
-               {[...Array(2)].map((_, i) => (
-                 <div key={i} className="animate-pulse space-y-6">
-                    <div className="h-10 w-1/3 bg-white/5 rounded" />
-                    <div className="h-6 w-full bg-white/5 rounded" />
-                 </div>
-               ))}
+        {/* Divider */}
+        <div style={{ height: 1, background: "rgba(255,255,255,0.06)", marginBottom: "clamp(32px, 5vw, 64px)" }} />
+
+        {/* Blog list */}
+        <div style={{ display: "flex", flexDirection: "column", gap: "clamp(0px, 0px, 0px)" }}>
+          {!loaded ? (
+            /* Skeleton */
+            [...Array(3)].map((_, i) => (
+              <div
+                key={i}
+                style={{
+                  padding: "clamp(24px, 4vw, 48px) 0",
+                  borderBottom: "1px solid rgba(255,255,255,0.05)",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 16,
+                }}
+              >
+                <div className="animate-pulse">
+                  <div style={{ height: 12, width: "30%", background: "rgba(255,255,255,0.05)", borderRadius: 4, marginBottom: 16 }} />
+                  <div style={{ height: 28, width: "70%", background: "rgba(255,255,255,0.06)", borderRadius: 4, marginBottom: 12 }} />
+                  <div style={{ height: 14, width: "50%", background: "rgba(255,255,255,0.04)", borderRadius: 4 }} />
+                </div>
+              </div>
+            ))
+          ) : blogs.length === 0 ? (
+            <div style={{ padding: "80px 0", textAlign: "center", color: "rgba(255,255,255,0.2)", fontSize: 14, fontWeight: 600, letterSpacing: "0.2em", textTransform: "uppercase" }}>
+              No posts yet.
             </div>
           ) : (
             blogs.map((blog, i) => (
               <motion.article
                 key={blog._id}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: i * 0.1 }}
-                viewport={{ once: true }}
-                className="group py-12"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: i * 0.08, ease }}
+                style={{
+                  padding: "clamp(24px, 4vw, 48px) 0",
+                  borderBottom: "1px solid rgba(255,255,255,0.05)",
+                }}
               >
-                <Link href={`/blog/${blog._id}`} className="block no-underline">
-                  <h2 className="text-5xl md:text-7xl font-black tracking-tighter mb-4 text-white hover:text-cyan-400 transition-colors duration-500">
+                <Link href={`/blog/${blog._id}`} className="block no-underline group">
+                  {/* Meta row */}
+                  <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 14 }}>
+                    <span
+                      style={{
+                        fontSize: 10,
+                        fontWeight: 800,
+                        letterSpacing: "0.35em",
+                        textTransform: "uppercase",
+                        color: "rgba(34,211,238,0.7)",
+                        padding: "3px 10px",
+                        border: "1px solid rgba(34,211,238,0.2)",
+                        borderRadius: 20,
+                      }}
+                    >
+                      {blog.tag || "Article"}
+                    </span>
+                    <span style={{ fontSize: 11, color: "rgba(255,255,255,0.2)", display: "flex", alignItems: "center", gap: 4 }}>
+                      <Clock size={10} />
+                      {readTime(blog.content)}
+                    </span>
+                    <span style={{ fontSize: 11, color: "rgba(255,255,255,0.2)", display: "flex", alignItems: "center", gap: 4 }}>
+                      <Calendar size={10} />
+                      {fmtDate(blog.createdAt)}
+                    </span>
+                  </div>
+
+                  {/* Title */}
+                  <h2
+                    className="font-black tracking-tighter text-white group-hover:text-cyan-300 transition-colors duration-400"
+                    style={{
+                      fontSize: "clamp(1.4rem, 4vw, 2.8rem)",
+                      lineHeight: 1.1,
+                      marginBottom: 12,
+                    }}
+                  >
                     {blog.title}
                   </h2>
-                  <p className="text-xl md:text-2xl text-white/30 font-medium italic">
-                    {blog.excerpt || blog.content.substring(0, 150).trim() + "..."}
+
+                  {/* Excerpt */}
+                  <p
+                    style={{
+                      fontSize: "clamp(13px, 1.5vw, 16px)",
+                      color: "rgba(255,255,255,0.3)",
+                      lineHeight: 1.65,
+                      fontWeight: 500,
+                      maxWidth: 680,
+                    }}
+                  >
+                    {blog.excerpt || blog.content.substring(0, 140).trim() + "…"}
                   </p>
                 </Link>
               </motion.article>
@@ -137,15 +188,28 @@ export default function BlogsPage() {
           )}
         </div>
 
-        {/* Footer info */}
-        <footer className="mt-64 pt-16 border-t border-white/5 flex justify-between items-center text-[11px] font-black uppercase tracking-[0.4em] text-white/20">
-           <div className="flex items-center gap-4">
-              <div className="w-3 h-3 rounded-full bg-cyan-500 shadow-[0_0_15px_cyan]" />
-              <span>Archive Terminal Vol. 01</span>
-           </div>
-           <div className="hidden md:block">
-             All Rights Reserved // 2026
-           </div>
+        {/* Footer */}
+        <footer
+          style={{
+            marginTop: "clamp(48px, 8vw, 96px)",
+            paddingTop: 24,
+            borderTop: "1px solid rgba(255,255,255,0.05)",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            flexWrap: "wrap",
+            gap: 12,
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#22d3ee", boxShadow: "0 0 10px #22d3ee" }} />
+            <span style={{ fontSize: 10, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.35em", color: "rgba(255,255,255,0.2)" }}>
+              Archive Terminal Vol. 01
+            </span>
+          </div>
+          <span style={{ fontSize: 10, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.35em", color: "rgba(255,255,255,0.15)" }}>
+            All Rights Reserved // 2026
+          </span>
         </footer>
       </div>
     </main>

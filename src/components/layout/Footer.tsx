@@ -29,13 +29,9 @@ export default function Footer({ socialLinks }: { socialLinks?: any }) {
       <div className="absolute -bottom-20 -left-20 w-80 h-80 bg-red-600/5 blur-[100px] rounded-full pointer-events-none" />
       
       {/* ── Main footer body ── */}
-      <div style={{ padding: "5rem 8rem 0" }} className="relative z-10">
+      <div className="relative z-10 pt-16 lg:pt-20" style={{ padding: "clamp(40px, 6vw, 80px) clamp(20px, 12%, 200px) 0" }}>
         <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "flex-start",
-          }}
+          className="flex flex-col md:flex-row justify-between items-center md:items-start gap-12 md:gap-0 text-center md:text-left"
         >
           {/* LEFT: brand */}
           <motion.div
@@ -92,7 +88,7 @@ export default function Footer({ socialLinks }: { socialLinks?: any }) {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.1 }}
             viewport={{ once: true }}
-            style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 32 }}
+            className="flex flex-col items-center md:items-end gap-8 md:gap-32"
           >
             {/* Availability badge */}
             <div
@@ -146,15 +142,8 @@ export default function Footer({ socialLinks }: { socialLinks?: any }) {
 
       {/* ── Bottom bar ── */}
       <div
-        style={{
-          margin: "4rem 8rem 0",
-          padding: "24px 0",
-          borderTop: "1px solid rgba(255,255,255,0.05)",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
         className="relative z-10"
+        style={{ margin: "64px clamp(20px, 12%, 200px) 0", paddingTop: 28, paddingBottom: 28, borderTop: "1px solid rgba(255,255,255,0.05)", display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: 16 }}
       >
         <p style={{ fontSize: 11, color: "rgba(255,255,255,0.15)", fontWeight: 500 }}>
           © 2026 Nikhil. All rights reserved.

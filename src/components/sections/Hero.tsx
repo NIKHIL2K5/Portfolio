@@ -78,7 +78,7 @@ export default function Hero({ socialLinks: cmsLinks }: { socialLinks?: any }) {
         initial={{ opacity: 0, x: 50 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 1.5, ease: primaryEase }}
-        className="absolute right-0 top-0 bottom-0 w-[55%] z-0 h-full"
+        className="absolute right-0 top-0 bottom-0 w-full lg:w-[55%] z-0 h-full"
       >
         <div className="relative w-full h-full">
           <Image
@@ -95,7 +95,7 @@ export default function Hero({ socialLinks: cmsLinks }: { socialLinks?: any }) {
       </motion.div>
 
       {/* ── Social Icons — fixed to left-center of screen ── */}
-      <div className="absolute left-5 md:left-7 top-1/2 -translate-y-1/2 flex flex-col items-center gap-7 z-30">
+      <div className="hidden lg:flex absolute left-5 md:left-7 top-1/2 -translate-y-1/2 flex-col items-center gap-7 z-30">
         {finalLinks.map((item, i) => (
           <motion.a
             key={item.label}
@@ -121,8 +121,11 @@ export default function Hero({ socialLinks: cmsLinks }: { socialLinks?: any }) {
       </div>
 
       {/* ── Main content — bottom-left ── */}
-      <div className="absolute inset-0 z-20 flex flex-col justify-end pr-8" style={{ paddingLeft: '80px', paddingBottom: '80px' }}>
-        <motion.div style={{ opacity }} className="flex flex-col gap-1 md:gap-3">
+      <div
+        className="absolute inset-0 z-20 flex flex-col justify-end"
+        style={{ padding: "0 clamp(20px, 5vw, 200px) clamp(60px, 6vw, 120px) clamp(20px, 12%, 200px)" }}
+      >
+        <motion.div style={{ opacity }} className="flex flex-col gap-1.5 lg:gap-3">
 
           {/* Tagline */}
           <motion.p
@@ -131,7 +134,11 @@ export default function Hero({ socialLinks: cmsLinks }: { socialLinks?: any }) {
             transition={{ delay: 0.9, duration: 0.8 }}
             className="text-white/40 text-[9px] md:text-[10px] font-semibold tracking-[0.45em] uppercase"
           >
-            Full Stack Developer&nbsp;&nbsp;|&nbsp;&nbsp;App Development&nbsp;&nbsp;|&nbsp;&nbsp;Automation&nbsp;&nbsp;|&nbsp;&nbsp;AI
+            {/* Tagline — single line on desktop, abbreviated on mobile */}
+            <span className="hidden sm:inline">
+              Full Stack Developer&nbsp;&nbsp;|&nbsp;&nbsp;App Development&nbsp;&nbsp;|&nbsp;&nbsp;Automation&nbsp;&nbsp;|&nbsp;&nbsp;AI
+            </span>
+            <span className="inline sm:hidden">Full Stack Developer &middot; AI &middot; Automation</span>
           </motion.p>
 
           {/* Giant Name */}
@@ -159,10 +166,10 @@ export default function Hero({ socialLinks: cmsLinks }: { socialLinks?: any }) {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.7, duration: 1.0, ease: primaryEase }}
-            className="flex gap-5 items-center mt-5"
+            className="flex gap-5 items-center mt-3 lg:mt-5 w-full"
           >
             <Magnetic>
-              <button className="px-10 h-14 glass text-white text-[10px] font-black uppercase tracking-[0.3em] hover:bg-white hover:text-black transition-all duration-500 rounded-[16px]">
+              <button className="px-8 h-12 lg:h-14 lg:px-10 glass text-white text-[9px] lg:text-[10px] font-black uppercase tracking-[0.3em] hover:bg-white hover:text-black transition-all duration-500 rounded-[14px] lg:rounded-[16px]">
                 Let&apos;s Build
               </button>
             </Magnetic>
@@ -190,7 +197,7 @@ export default function Hero({ socialLinks: cmsLinks }: { socialLinks?: any }) {
       </motion.div>
 
       {/* Subtle ambient glow bottom-left */}
-      <div className="absolute left-[-5vw] bottom-[-5vh] w-[55vw] h-[55vh] bg-white/[0.012] blur-[160px] rounded-full z-10 pointer-events-none" />
+      <div className="absolute left-[-20vw] lg:left-[-5vw] bottom-[-10vh] lg:bottom-[-5vh] w-[100vw] lg:w-[55vw] h-[50vh] lg:h-[55vh] bg-white/[0.012] blur-[100px] lg:blur-[160px] rounded-full z-10 pointer-events-none" />
     </section>
   );
 }

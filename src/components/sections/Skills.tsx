@@ -201,12 +201,8 @@ export default function Skills() {
       </div>
 
       <div
-        className="relative z-10 mx-auto"
-        style={{
-          maxWidth: 1100,
-          paddingLeft: 120,
-          paddingRight: 60,
-        }}
+        className="relative z-10"
+        style={{ padding: "0 clamp(20px, 12%, 200px)" }}
       >
         {/* ── Section Label ── */}
         <motion.div 
@@ -228,14 +224,14 @@ export default function Skills() {
           transition={{ duration: 1, ease: primaryEase }}
           viewport={{ once: true }}
           className="font-black text-white"
-          style={{ fontSize: "clamp(4.2rem, 10vw, 7.5rem)", marginBottom: 80, letterSpacing: "-0.06em", lineHeight: 0.8 }}
+          style={{ fontSize: "clamp(3rem, 10vw, 7.5rem)", marginBottom: "clamp(32px, 6vw, 80px)", letterSpacing: "-0.06em", lineHeight: 0.8 }}
         >
           Weaponry<br />
           <span className="text-white/10" style={{ textShadow: "none" }}>Vault.</span>
         </motion.h2>
 
         {/* ── Skill groups ── */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 100 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: "clamp(40px, 8vw, 100px)" }}>
           {skillGroups.map((group, gi) => (
             <motion.div
               key={gi}
