@@ -1,17 +1,18 @@
 import { NextResponse } from "next/server";
 import connectDB from "@/lib/mongodb";
-import { Project, Experience, Blog } from "@/models/Portfolio";
+import { Project, Experience, Blog, Testimonial } from "@/models/Portfolio";
 import Message from "@/models/Message";
 
 export async function GET() {
   try {
     await connectDB();
 
-    const [projectsCount, experienceCount, blogsCount, messagesCount] = await Promise.all([
+    const [projectsCount, experienceCount, blogsCount, messagesCount, testimonialsCount] = await Promise.all([
       Project.countDocuments(),
       Experience.countDocuments(),
       Blog.countDocuments(),
       Message.countDocuments(),
+      Testimonial.countDocuments(),
     ]);
 
     return NextResponse.json({
@@ -20,6 +21,7 @@ export async function GET() {
         experience: experienceCount,
         blogs: blogsCount,
         messages: messagesCount,
+        testimonials: testimonialsCount,
       }
     });
   } catch (error) {

@@ -45,16 +45,16 @@ export default function AdminProfile() {
     <div className="space-y-12 pb-24 max-w-5xl">
 
       {/* Section Header */}
-      <div className="flex items-end justify-between mb-24">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-8 mb-12 sm:mb-24">
         <div>
-          <p className="text-[11px] font-black text-zinc-300 uppercase tracking-[0.6em] mb-4">Identity // Control</p>
-          <h2 className="text-6xl font-black text-[#0D0D0D] tracking-tighter uppercase italic leading-none">Profile Settings</h2>
+          <p className="text-[9px] sm:text-[11px] font-black text-zinc-300 uppercase tracking-[0.4em] sm:tracking-[0.6em] mb-3 sm:mb-4">Identity // Control</p>
+          <h2 className="text-4xl sm:text-6xl font-black text-[#0D0D0D] tracking-tighter uppercase italic leading-none">Profile Settings</h2>
         </div>
         <button onClick={handleSave} disabled={saving}
-          className={`flex items-center gap-6 px-16 py-8 rounded-[32px] text-[13px] font-black uppercase tracking-[0.25em] active:scale-95 transition-all shadow-[0_25px_50px_rgba(0,0,0,0.15)] disabled:opacity-50 ${
+          className={`flex items-center justify-center gap-4 sm:gap-6 px-8 sm:px-16 py-5 sm:py-8 rounded-2xl sm:rounded-[32px] text-[11px] sm:text-[13px] font-black uppercase tracking-[0.2em] sm:tracking-[0.25em] active:scale-95 transition-all shadow-[0_25px_50px_rgba(0,0,0,0.15)] disabled:opacity-50 self-start sm:self-end ${
             saved ? "bg-emerald-500 text-white shadow-emerald-200" : "bg-[#0D0D0D] text-white hover:bg-zinc-800"
           }`}>
-          {saving ? <Loader2 className="animate-spin" size={20} /> : saved ? <CheckCircle size={20} /> : <Save size={20} />}
+          {saving ? <Loader2 className="animate-spin" size={18} /> : saved ? <CheckCircle size={18} /> : <Save size={18} />}
           {saved ? "Synchronized" : "Synchronize Identity"}
         </button>
       </div>
@@ -65,7 +65,7 @@ export default function AdminProfile() {
           <span>Portfolio Analytics</span>
           <div className="flex-1 h-px bg-zinc-100" />
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
           {[
             { label: "Years of Experience", key: "yearsOfExp", placeholder: "5+" },
             { label: "Projects Completed", key: "projectsCompleted", placeholder: "30+" },
@@ -74,12 +74,12 @@ export default function AdminProfile() {
             <motion.div key={stat.key}
               initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.06, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className="bg-white rounded-[32px] border border-zinc-100 p-10 shadow-[0_8px_30px_rgba(0,0,0,0.02)] hover:shadow-[0_30px_60px_rgba(0,0,0,0.08)] transition-all">
-              <label className="text-[10px] font-black text-zinc-300 uppercase tracking-[0.4em] block mb-5 italic">{stat.label}</label>
+              className="bg-white rounded-[24px] sm:rounded-[32px] border border-zinc-100 p-8 sm:p-10 shadow-[0_8px_30px_rgba(0,0,0,0.02)] hover:shadow-[0_30px_60px_rgba(0,0,0,0.08)] transition-all">
+              <label className="text-[9px] sm:text-[10px] font-black text-zinc-300 uppercase tracking-[0.3em] sm:tracking-[0.4em] block mb-4 sm:mb-5 italic">{stat.label}</label>
               <input
                 value={(data?.stats as any)?.[stat.key] || ""}
                 onChange={e => setData({ ...data, stats: { ...data.stats, [stat.key]: e.target.value } })}
-                className="w-full bg-zinc-50 border border-zinc-100 rounded-xl px-4 py-3 text-2xl font-black focus:outline-none focus:border-zinc-300 text-[#0D0D0D] tracking-tighter transition-colors"
+                className="w-full bg-zinc-50 border border-zinc-100 rounded-lg sm:rounded-xl px-4 py-2.5 sm:py-3 text-xl sm:text-2xl font-black focus:outline-none focus:border-zinc-300 text-[#0D0D0D] tracking-tighter transition-colors"
                 placeholder={stat.placeholder}
               />
             </motion.div>
@@ -92,27 +92,27 @@ export default function AdminProfile() {
 
         {/* Contact Details */}
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-          className="bg-white rounded-[40px] border border-zinc-100 p-12 space-y-10 shadow-[0_8px_30px_rgba(0,0,0,0.02)]">
-          <div className="flex items-center gap-5 pb-6 border-b border-zinc-50">
-            <div className="w-12 h-12 rounded-2xl bg-[#0D0D0D] text-white flex items-center justify-center shadow-xl">
-              <Globe size={18} />
+          className="bg-white rounded-[32px] sm:rounded-[40px] border border-zinc-100 p-8 sm:p-12 space-y-8 sm:space-y-10 shadow-[0_8px_30px_rgba(0,0,0,0.02)]">
+          <div className="flex items-center gap-4 sm:gap-5 pb-6 border-b border-zinc-50">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-[#0D0D0D] text-white flex items-center justify-center shadow-xl">
+              <Globe size={16} className="sm:w-[18px] sm:h-[18px]" />
             </div>
             <div>
-              <h4 className="font-black text-[#0D0D0D] text-lg uppercase italic tracking-tight">Identity Node</h4>
-              <p className="text-[9px] font-black text-zinc-300 uppercase tracking-[0.4em]">Global Coordinates</p>
+              <h4 className="font-black text-[#0D0D0D] text-base sm:text-lg uppercase italic tracking-tight">Identity Node</h4>
+              <p className="text-[8px] sm:text-[9px] font-black text-zinc-300 uppercase tracking-[0.3em] sm:tracking-[0.4em]">Global Coordinates</p>
             </div>
           </div>
-          <div className="space-y-8">
+          <div className="space-y-6 sm:space-y-8">
             {[
               { label: "Showcased Email", key: "email", placeholder: "name@email.com", type: "email" },
               { label: "Location", key: "location", placeholder: "City, Country", type: "text" },
             ].map(f => (
-              <div key={f.key} className="space-y-3">
-                <label className="text-[10px] font-black text-zinc-300 uppercase tracking-[0.4em] ml-1">{f.label}</label>
+              <div key={f.key} className="space-y-2 sm:space-y-3">
+                <label className="text-[9px] sm:text-[10px] font-black text-zinc-300 uppercase tracking-[0.3em] sm:tracking-[0.4em] ml-1">{f.label}</label>
                 <input type={f.type}
                   value={(data as any)[f.key] || ""}
                   onChange={e => setData({ ...data, [f.key]: e.target.value })}
-                  className="w-full bg-zinc-50/50 border border-zinc-100 rounded-2xl px-6 py-4 text-sm focus:outline-none focus:border-zinc-400 text-[#0D0D0D] font-bold tracking-wide transition-all placeholder:text-zinc-200"
+                  className="w-full bg-zinc-50/50 border border-zinc-100 rounded-xl sm:rounded-2xl px-5 sm:px-6 py-3.5 sm:py-4 text-sm focus:outline-none focus:border-zinc-400 text-[#0D0D0D] font-bold tracking-wide transition-all placeholder:text-zinc-200"
                   placeholder={f.placeholder}
                 />
               </div>
@@ -122,33 +122,33 @@ export default function AdminProfile() {
 
         {/* Social Links */}
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.32, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-          className="bg-white rounded-[40px] border border-zinc-100 p-12 space-y-10 shadow-[0_8px_30px_rgba(0,0,0,0.02)]">
-          <div className="flex items-center gap-5 pb-6 border-b border-zinc-50">
-            <div className="w-12 h-12 rounded-2xl bg-[#0D0D0D] text-white flex items-center justify-center shadow-xl">
-              <Share2 size={18} />
+          className="bg-white rounded-[32px] sm:rounded-[40px] border border-zinc-100 p-8 sm:p-12 space-y-8 sm:space-y-10 shadow-[0_8px_30px_rgba(0,0,0,0.02)]">
+          <div className="flex items-center gap-4 sm:gap-5 pb-6 border-b border-zinc-50">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-[#0D0D0D] text-white flex items-center justify-center shadow-xl">
+              <Share2 size={16} className="sm:w-[18px] sm:h-[18px]" />
             </div>
             <div>
-              <h4 className="font-black text-[#0D0D0D] text-lg uppercase italic tracking-tight">Social Ecosystem</h4>
-              <p className="text-[9px] font-black text-zinc-300 uppercase tracking-[0.4em]">Digital Presence</p>
+              <h4 className="font-black text-[#0D0D0D] text-base sm:text-lg uppercase italic tracking-tight">Social Ecosystem</h4>
+              <p className="text-[8px] sm:text-[9px] font-black text-zinc-300 uppercase tracking-[0.3em] sm:tracking-[0.4em]">Digital Presence</p>
             </div>
           </div>
-          <div className="space-y-6">
+          <div className="space-y-5 sm:space-y-6">
             {[
               { key: "linkedin", icon: "https://img.icons8.com/ios-glyphs/60/0077B5/linkedin.png", color: "bg-blue-50" },
               { key: "github", icon: "https://img.icons8.com/ios-glyphs/60/181717/github.png", color: "bg-zinc-100" },
               { key: "youtube", icon: "https://img.icons8.com/ios-glyphs/60/FF0000/youtube-play.png", color: "bg-red-50" },
               { key: "instagram", icon: "https://img.icons8.com/ios-glyphs/60/E4405F/instagram-new.png", color: "bg-pink-50" }
             ].map(({ key, icon, color }) => (
-              <div key={key} className="flex items-center gap-4 group">
-                <div className={`w-12 h-12 rounded-2xl ${color} flex items-center justify-center shrink-0 transition-transform group-hover:scale-110 duration-300 p-3`}>
+              <div key={key} className="flex items-center gap-3 sm:gap-4 group">
+                <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl ${color} flex items-center justify-center shrink-0 transition-transform group-hover:scale-110 duration-300 p-2.5 sm:p-3`}>
                   <img src={icon} alt={key} className="w-full h-full object-contain" />
                 </div>
-                <div className="flex-1 space-y-1.5">
-                  <label className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em] ml-1">{key}</label>
+                <div className="flex-1 space-y-1 sm:space-y-1.5">
+                  <label className="text-[9px] sm:text-[10px] font-black text-zinc-400 uppercase tracking-[0.15em] sm:tracking-[0.2em] ml-1">{key}</label>
                   <input
                     value={(data?.socialLinks as any)?.[key] || ""}
                     onChange={e => setData({ ...data, socialLinks: { ...data.socialLinks, [key]: e.target.value } })}
-                    className="w-full bg-zinc-50/50 border border-zinc-100 rounded-2xl px-6 py-4 text-[13px] focus:outline-none focus:border-zinc-400 text-[#0D0D0D] font-bold tracking-tight transition-all placeholder:text-zinc-200"
+                    className="w-full bg-zinc-50/50 border border-zinc-100 rounded-xl sm:rounded-2xl px-4 sm:px-6 py-3 sm:py-4 text-[12px] sm:text-[13px] focus:outline-none focus:border-zinc-400 text-[#0D0D0D] font-bold tracking-tight transition-all placeholder:text-zinc-200 truncate"
                     placeholder={`https://${key}.com/your-profile`}
                   />
                 </div>

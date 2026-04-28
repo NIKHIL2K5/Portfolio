@@ -35,7 +35,7 @@ export default function RequestAccess() {
   };
 
   return (
-    <div className="w-full min-h-[calc(100vh-100px)] flex flex-col items-center justify-center p-16 md:p-8 relative font-sans">
+    <div className="w-full min-h-screen flex flex-col items-center justify-center p-6 sm:p-12 relative font-sans">
       <div className="absolute inset-0 pointer-events-none z-0">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.03)_0%,transparent_50%)]" />
       </div>
@@ -46,10 +46,10 @@ export default function RequestAccess() {
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         className="max-w-lg w-full relative z-10 flex flex-col mx-auto items-center"
       >
-        <div className="bg-white w-full p-12 md:p-16 rounded-[3rem] border border-slate-100 shadow-xl relative overflow-hidden flex flex-col items-center gap-10 shrink-0">
+        <div className="bg-white w-full p-8 sm:p-12 md:p-16 rounded-[2.5rem] sm:rounded-[3rem] border border-slate-100 shadow-xl relative overflow-hidden flex flex-col items-center gap-8 sm:gap-10 shrink-0">
           <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
 
-          <div className="flex flex-col items-center text-center gap-8 pt-10 w-full">
+          <div className="flex flex-col items-center text-center gap-6 sm:gap-8 pt-6 sm:pt-10 w-full">
             <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}

@@ -2,10 +2,10 @@
 
 import { motion } from "framer-motion";
 
-import { LayoutDashboard, Briefcase, Clock, BookOpen, Star, User, MessageCircle, LogOut, ChevronDown } from "lucide-react";
+import { LayoutDashboard, Briefcase, Clock, BookOpen, Star, User, MessageCircle, LogOut, ChevronDown, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter, useParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const getAdminNav = (token: string) => [
   { name: "Overview", href: `/admin/approval/${token}`, icon: <LayoutDashboard size={20} /> },
@@ -24,10 +24,17 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const token = params?.token as string;
   const adminNav = token ? getAdminNav(token) : [];
 
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   const handleLogout = () => {
     document.cookie = `admin_token=; Max-Age=0; path=/;`;
     router.push('/admin');
   };
+
+  // Close sidebar on path change (mobile)
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [pathname]);
 
   if (!token) return null;
 
@@ -37,9 +44,26 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   }, [token]);
 
   return (
-    <div className="flex h-screen w-full bg-white overflow-hidden font-sans text-[#0D0D0D]">
-      {/* Sidebar - Fixed 320px */}
-      <aside className="w-80 h-full bg-black/90 backdrop-blur-xl flex flex-col justify-between shrink-0 relative z-30 shadow-2xl gap-10">
+    <div className="flex h-screen w-full bg-zinc-100 overflow-hidden font-sans text-[#0D0D0D] relative lg:p-4 lg:gap-4">
+      {/* Mobile Menu Overlay */}
+      {isMobileMenuOpen && (
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={() => setIsMobileMenuOpen(false)}
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden"
+        />
+      )}
+
+      {/* Sidebar - Fixed 320px on Desktop, Overlay on Mobile */}
+      <aside className={`
+        fixed lg:static inset-y-0 left-0 z-50
+        w-80 h-full bg-black/90 lg:bg-black/95 backdrop-blur-xl flex flex-col justify-between shrink-0 shadow-2xl gap-10
+        transition-transform duration-500 ease-[0.22,1,0.36,1]
+        ${isMobileMenuOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
+        lg:rounded-[32px] border border-white/5 overflow-hidden
+      `}>
         {/* Top Profile Section */}
 
         <div className="py-12 flex flex-col items-center border-b border-white/5">
@@ -116,31 +140,41 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       </aside>
 
       {/* Main Content Area */}
-      <main className="flex-1 h-full flex flex-col relative overflow-hidden bg-zinc-50/50">
+      <main className="flex-1 h-full flex flex-col relative overflow-hidden bg-white w-full lg:rounded-[32px] border border-zinc-200">
         {/* System Header - Solid White */}
-        <header className="h-20 shrink-0 flex items-center justify-between border-b border-zinc-200 bg-white sticky top-0 z-40" style={{ paddingLeft: '56px', paddingRight: '56px' }}>
-          <div className="space-y-3">
-            <p className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.6em] leading-none">System Dashboard</p>
-            <h2 className="text-4xl font-black tracking-tighter text-[#0D0D0D] py-2 uppercase italic leading-tight">
-              {adminNav.find(n => n.href === pathname)?.name || "Overview"}
-            </h2>
-            <div className="flex items-center gap-4 text-[10px] font-bold text-zinc-400 uppercase tracking-[0.3em]">
-              <span>Admin</span>
-              <span className="text-zinc-200 font-normal">/</span>
-              <span className="text-zinc-600">{adminNav.find(n => n.href === pathname)?.name || "Overview"}</span>
+        <header className="h-20 shrink-0 flex items-center justify-between border-b border-zinc-200 bg-white sticky top-0 z-40 px-4 sm:px-8 lg:px-14">
+          <div className="flex items-center gap-4">
+            {/* Hamburger Button */}
+            <button 
+              onClick={() => setIsMobileMenuOpen(true)}
+              className="lg:hidden w-10 h-10 rounded-full bg-zinc-100 flex items-center justify-center text-zinc-900 active:scale-90 transition-transform"
+            >
+              <Menu size={20} />
+            </button>
+
+            <div className="space-y-1 sm:space-y-3">
+              <p className="text-[8px] sm:text-[10px] font-black text-zinc-400 uppercase tracking-[0.4em] sm:tracking-[0.6em] leading-none">System Dashboard</p>
+              <h2 className="text-xl sm:text-2xl md:text-4xl font-black tracking-tighter text-[#0D0D0D] sm:py-2 uppercase italic leading-tight">
+                {adminNav.find(n => n.href === pathname)?.name || "Overview"}
+              </h2>
+              <div className="hidden sm:flex items-center gap-4 text-[10px] font-bold text-zinc-400 uppercase tracking-[0.3em]">
+                <span>Admin</span>
+                <span className="text-zinc-200 font-normal">/</span>
+                <span className="text-zinc-600">{adminNav.find(n => n.href === pathname)?.name || "Overview"}</span>
+              </div>
             </div>
           </div>
 
-          <div className="flex items-center gap-7">
+          <div className="flex items-center gap-3 sm:gap-7">
             {/* Profile Link */}
-            <Link href={`/admin/approval/${token}/profile`} className="w-10 h-10 rounded-full bg-[#0D0D0D] text-white flex items-center justify-center hover:scale-105 transition-all shadow-xl hover:shadow-black/20">
-              <User size={18} />
+            <Link href={`/admin/approval/${token}/profile`} className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#0D0D0D] text-white flex items-center justify-center hover:scale-105 transition-all shadow-xl hover:shadow-black/20">
+              <User size={16} />
             </Link>
           </div>
         </header>
 
         {/* Page Content */}
-        <div className="flex-1 overflow-y-auto scroll-smooth relative" style={{ paddingLeft: '56px', paddingRight: '56px', paddingTop: '48px', paddingBottom: '80px' }}>
+        <div className="flex-1 overflow-y-auto scroll-smooth relative px-4 sm:px-8 lg:px-14 py-8 sm:py-12 pb-20 sm:pb-24">
           {/* Subtle Blue Glow Effect at bottom */}
           <div className="fixed bottom-0 right-0 w-[50vw] h-[30vh] bg-blue-500/5 blur-[120px] pointer-events-none z-0" />
 

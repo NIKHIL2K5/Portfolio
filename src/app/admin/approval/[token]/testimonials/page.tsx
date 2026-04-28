@@ -41,14 +41,16 @@ export default function AdminTestimonials() {
   return (
     <div className="space-y-8 pb-20">
 
-      <div className="flex items-end justify-between mb-24">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-8 mb-12 sm:mb-24">
         <div>
-          <p className="text-[11px] font-black text-zinc-300 uppercase tracking-[0.8em] mb-6">Social // Studio Protocol</p>
-          <h2 className="text-6xl font-black text-[#0D0D0D] tracking-tighter uppercase italic leading-none">Testimonials <span className="text-zinc-200 font-medium text-4xl ml-4">({testimonials.length})</span></h2>
+          <p className="text-[9px] sm:text-[11px] font-black text-zinc-300 uppercase tracking-[0.4em] sm:tracking-[0.8em] mb-4 sm:mb-6">Social // Studio Protocol</p>
+          <h2 className="text-4xl sm:text-6xl font-black text-[#0D0D0D] tracking-tighter uppercase italic leading-none">
+            Testimonials <span className="text-zinc-200 font-medium text-2xl sm:text-4xl ml-2 sm:ml-4">({testimonials.length})</span>
+          </h2>
         </div>
         <button onClick={() => { setEditing({ name: "", role: "", content: "", avatarUrl: "" }); setOpen(true); }}
-          className="flex items-center gap-6 bg-[#0D0D0D] text-white px-12 py-6 rounded-3xl text-[11px] font-black uppercase tracking-[0.4em] hover:bg-zinc-800 active:scale-95 transition-all shadow-[0_25px_50px_rgba(0,0,0,0.2)] group">
-          <Plus size={20} className="group-hover:rotate-90 transition-transform duration-300" /> Add New Quote
+          className="flex items-center justify-center gap-4 sm:gap-6 bg-[#0D0D0D] text-white px-8 sm:px-12 py-4 sm:py-6 rounded-2xl sm:rounded-3xl text-[10px] sm:text-[11px] font-black uppercase tracking-[0.3em] sm:tracking-[0.4em] hover:bg-zinc-800 active:scale-95 transition-all shadow-[0_25px_50px_rgba(0,0,0,0.2)] group self-start sm:self-end">
+          <Plus size={18} className="group-hover:rotate-90 transition-transform duration-300 sm:w-5 sm:h-5" /> Add New Quote
         </button>
       </div>
 
@@ -68,40 +70,40 @@ export default function AdminTestimonials() {
             <motion.div key={t._id}
               initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.06, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              className="bg-white rounded-[40px] border border-zinc-100 p-12 flex flex-col gap-8 shadow-[0_8px_30px_rgba(0,0,0,0.02)] hover:shadow-[0_30px_60px_rgba(0,0,0,0.08)] hover:-translate-y-2 transition-all duration-500 relative overflow-hidden group">
+              className="bg-white rounded-[32px] sm:rounded-[40px] border border-zinc-100 p-8 sm:p-12 flex flex-col gap-6 sm:gap-8 shadow-[0_8px_30px_rgba(0,0,0,0.02)] hover:shadow-[0_30px_60px_rgba(0,0,0,0.08)] hover:-translate-y-2 transition-all duration-500 relative overflow-hidden group">
               
               <div className="absolute top-0 right-0 w-32 h-32 bg-zinc-50/50 rounded-bl-[100px] -z-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
               {/* Quote Section */}
               <div className="relative z-10">
-                <div className="w-12 h-12 rounded-2xl bg-zinc-50 border border-zinc-100 flex items-center justify-center mb-6 group-hover:bg-[#0D0D0D] transition-colors duration-500">
-                  <Quote size={20} className="text-zinc-300 group-hover:text-white transition-colors" />
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-zinc-50 border border-zinc-100 flex items-center justify-center mb-4 sm:mb-6 group-hover:bg-[#0D0D0D] transition-colors duration-500">
+                  <Quote size={18} className="text-zinc-300 group-hover:text-white transition-colors sm:w-5 sm:h-5" />
                 </div>
-                <p className="text-[16px] text-zinc-500 font-medium leading-relaxed italic tracking-wide flex-1">&ldquo;{t.content}&rdquo;</p>
+                <p className="text-sm sm:text-[16px] text-zinc-500 font-medium leading-relaxed italic tracking-wide flex-1">&ldquo;{t.content}&rdquo;</p>
               </div>
 
               {/* Author Section */}
-              <div className="flex items-center gap-5 pt-8 border-t border-zinc-50 relative z-10">
-                <div className="w-14 h-14 rounded-2xl bg-zinc-50 border border-zinc-100 overflow-hidden shrink-0 shadow-sm group-hover:scale-110 transition-transform duration-500">
+              <div className="flex items-center gap-4 sm:gap-5 pt-6 sm:pt-8 border-t border-zinc-50 relative z-10">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-zinc-50 border border-zinc-100 overflow-hidden shrink-0 shadow-sm group-hover:scale-110 transition-transform duration-500">
                   {t.avatarUrl
                     ? <img src={t.avatarUrl} className="w-full h-full object-cover" />
-                    : <div className="w-full h-full flex items-center justify-center text-lg font-black text-zinc-300">{t.name?.[0]}</div>}
+                    : <div className="w-full h-full flex items-center justify-center text-base sm:text-lg font-black text-zinc-300">{t.name?.[0]}</div>}
                 </div>
-                <div className="flex-1 min-w-0 space-y-1">
-                  <p className="font-black text-[#0D0D0D] text-lg tracking-tight truncate leading-none">{t.name}</p>
-                  <p className="text-[10px] text-zinc-400 font-black uppercase tracking-[0.3em] truncate">{t.role}</p>
+                <div className="flex-1 min-w-0 space-y-0.5 sm:space-y-1">
+                  <p className="font-black text-[#0D0D0D] text-base sm:text-lg tracking-tight truncate leading-none">{t.name}</p>
+                  <p className="text-[9px] sm:text-[10px] text-zinc-400 font-black uppercase tracking-[0.2em] sm:tracking-[0.3em] truncate">{t.role}</p>
                 </div>
               </div>
 
               {/* Actions Section */}
-              <div className="flex gap-4 relative z-10">
+              <div className="flex gap-3 sm:gap-4 relative z-10">
                 <button onClick={() => { setEditing(t); setOpen(true); }}
-                  className="flex-1 bg-zinc-50 hover:bg-[#0D0D0D] hover:text-white border border-zinc-100 hover:border-[#0D0D0D] py-5 rounded-2xl transition-all duration-400 flex items-center justify-center gap-4 text-[11px] font-black uppercase tracking-[0.25em] text-zinc-600 shadow-sm active:scale-95">
-                  <Edit2 size={16} /> Edit Quote
+                  className="flex-1 bg-zinc-50 hover:bg-[#0D0D0D] hover:text-white border border-zinc-100 hover:border-[#0D0D0D] py-4 sm:py-5 rounded-xl sm:rounded-2xl transition-all duration-400 flex items-center justify-center gap-3 sm:gap-4 text-[10px] sm:text-[11px] font-black uppercase tracking-[0.2em] sm:tracking-[0.25em] text-zinc-600 shadow-sm active:scale-95">
+                  <Edit2 size={14} className="sm:w-4 sm:h-4" /> Edit Quote
                 </button>
                 <button onClick={() => handleDelete(t._id)}
-                  className="p-5 rounded-2xl bg-red-50 hover:bg-red-500 text-red-500 hover:text-white transition-all duration-400 border border-red-100 hover:border-red-500 active:scale-95 shadow-sm">
-                  <Trash2 size={18} />
+                  className="p-4 sm:p-5 rounded-xl sm:rounded-2xl bg-red-50 hover:bg-red-500 text-red-500 hover:text-white transition-all duration-400 border border-red-100 hover:border-red-500 active:scale-95 shadow-sm">
+                  <Trash2 size={16} className="sm:w-[18px] sm:h-[18px]" />
                 </button>
               </div>
             </motion.div>
@@ -120,35 +122,35 @@ export default function AdminTestimonials() {
               style={{ maxHeight: '90vh' }}>
               
               {/* Header */}
-              <div className="px-14 pt-16 pb-12 border-b border-zinc-100 bg-white">
-                <p className="text-[11px] font-black text-zinc-300 uppercase tracking-[0.3em] mb-4">Social Proof // System</p>
-                <div className="flex items-center justify-between">
-                  <h3 className="text-5xl font-black text-[#0D0D0D] tracking-tighter uppercase italic leading-none">
+              <div className="px-6 sm:px-14 pt-8 sm:pt-16 pb-6 sm:pb-12 border-b border-zinc-100 bg-white">
+                <p className="text-[9px] sm:text-[11px] font-black text-zinc-300 uppercase tracking-[0.2em] sm:tracking-[0.3em] mb-3 sm:mb-4">Social Proof // System</p>
+                <div className="flex items-center justify-between gap-4">
+                  <h3 className="text-3xl sm:text-5xl font-black text-[#0D0D0D] tracking-tighter uppercase italic leading-none">
                     {editing?._id ? "Edit Quote" : "New Quote"}
                   </h3>
                   <button onClick={() => setOpen(false)} 
-                    className="w-12 h-12 flex items-center justify-center bg-zinc-50 hover:bg-zinc-100 text-zinc-400 hover:text-[#0D0D0D] rounded-2xl transition-all border border-zinc-100">
-                    <X size={22} />
+                    className="w-10 h-10 sm:w-12 sm:h-12 shrink-0 flex items-center justify-center bg-zinc-50 hover:bg-zinc-100 text-zinc-400 hover:text-[#0D0D0D] rounded-xl sm:rounded-2xl transition-all border border-zinc-100">
+                    <X size={20} className="sm:w-[22px] sm:h-[22px]" />
                   </button>
                 </div>
               </div>
 
               {/* Scrollable Form Body */}
-              <div className="flex-1 overflow-y-auto px-14 py-12 bg-white custom-scrollbar">
-                <form onSubmit={handleSave} className="space-y-12">
-                  <div className="space-y-8">
-                    <p className="text-[11px] font-black text-zinc-300 uppercase tracking-[0.3em]">Client Profile</p>
+              <div className="flex-1 overflow-y-auto px-6 sm:px-14 py-8 sm:py-12 bg-white custom-scrollbar">
+                <form onSubmit={handleSave} className="space-y-8 sm:space-y-12">
+                  <div className="space-y-6 sm:space-y-8">
+                    <p className="text-[10px] sm:text-[11px] font-black text-zinc-300 uppercase tracking-[0.3em]">Client Profile</p>
                     
-                    <div className="grid grid-cols-2 gap-8">
-                      <div className="space-y-3">
-                        <label className="text-[10px] font-black text-zinc-800 uppercase tracking-[0.2em] ml-1">Client Name</label>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+                      <div className="space-y-2 sm:space-y-3">
+                        <label className="text-[9px] sm:text-[10px] font-black text-zinc-800 uppercase tracking-[0.2em] ml-1">Client Name</label>
                         <input required value={editing?.name || ""} onChange={e => setEditing({ ...editing, name: e.target.value })}
-                          className="w-full bg-white border border-zinc-200 rounded-xl px-6 py-4 text-sm font-medium text-[#0D0D0D] focus:outline-none focus:border-zinc-400 transition-all placeholder:text-zinc-300" />
+                          className="w-full bg-white border border-zinc-200 rounded-lg sm:rounded-xl px-4 sm:px-6 py-3 sm:py-4 text-sm font-medium text-[#0D0D0D] focus:outline-none focus:border-zinc-400 transition-all placeholder:text-zinc-300" />
                       </div>
-                      <div className="space-y-3">
-                        <label className="text-[10px] font-black text-zinc-800 uppercase tracking-[0.2em] ml-1">Professional Role</label>
+                      <div className="space-y-2 sm:space-y-3">
+                        <label className="text-[9px] sm:text-[10px] font-black text-zinc-800 uppercase tracking-[0.2em] ml-1">Professional Role</label>
                         <input value={editing?.role || ""} onChange={e => setEditing({ ...editing, role: e.target.value })}
-                          className="w-full bg-white border border-zinc-200 rounded-xl px-6 py-4 text-sm font-medium text-[#0D0D0D] focus:outline-none focus:border-zinc-400 transition-all placeholder:text-zinc-200" placeholder="CEO AT COMPANY" />
+                          className="w-full bg-white border border-zinc-200 rounded-lg sm:rounded-xl px-4 sm:px-6 py-3 sm:py-4 text-sm font-medium text-[#0D0D0D] focus:outline-none focus:border-zinc-400 transition-all placeholder:text-zinc-200" placeholder="CEO AT COMPANY" />
                       </div>
                     </div>
 
@@ -168,10 +170,10 @@ export default function AdminTestimonials() {
               </div>
 
               {/* Footer Action */}
-              <div className="px-14 py-10 bg-white border-t border-zinc-100">
+              <div className="px-6 sm:px-14 py-6 sm:py-10 bg-white border-t border-zinc-100">
                 <button onClick={handleSave} 
-                  className="w-full bg-[#0D0D0D] hover:bg-zinc-800 text-white font-black uppercase tracking-[0.3em] text-[12px] py-6 rounded-2xl transition-all flex items-center justify-center gap-4 shadow-[0_20px_40px_rgba(0,0,0,0.2)] active:scale-[0.98]">
-                  <Save size={20} />
+                  className="w-full bg-[#0D0D0D] hover:bg-zinc-800 text-white font-black uppercase tracking-[0.2em] sm:tracking-[0.3em] text-[11px] sm:text-[12px] py-4 sm:py-6 rounded-xl sm:rounded-2xl transition-all flex items-center justify-center gap-3 sm:gap-4 shadow-[0_20px_40px_rgba(0,0,0,0.2)] active:scale-[0.98]">
+                  <Save size={18} className="sm:w-5 sm:h-5" />
                   {editing?._id ? "Synchronize Quote" : "Initialize Quote"}
                 </button>
               </div>

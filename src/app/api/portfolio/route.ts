@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import { Project, Experience, Blog, Testimonial, Settings } from '@/models/Portfolio';
+ 
+export const dynamic = 'force-dynamic';
 
 export async function GET() {
   await connectDB();

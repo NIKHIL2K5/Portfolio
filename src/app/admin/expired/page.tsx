@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 
 export default function SessionExpired() {
   return (
-    <div className="w-full min-h-[calc(100vh-100px)] flex flex-col items-center justify-center p-16 md:p-8 relative font-sans">
+    <div className="w-full min-h-screen flex flex-col items-center justify-center p-6 sm:p-12 relative font-sans">
       {/* Refined Background */}
       <div className="absolute inset-0 pointer-events-none z-0">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.03)_0%,transparent_50%)]" />

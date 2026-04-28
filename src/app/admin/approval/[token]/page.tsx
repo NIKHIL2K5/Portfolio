@@ -37,7 +37,7 @@ function StatCard({ label, value, icon, href, index, loaded }: {
       transition={{ delay: index * 0.07, duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
     >
       <Link href={href} className="block group">
-        <div className="relative bg-white rounded-2xl border border-zinc-100 flex flex-col hover:shadow-xl hover:-translate-y-0.5 transition-all duration-400 overflow-hidden" style={{ padding: '36px' }}>
+        <div className="relative bg-white rounded-2xl border border-zinc-100 flex flex-col hover:shadow-xl hover:-translate-y-0.5 transition-all duration-400 overflow-hidden" style={{ padding: 'clamp(24px, 4vw, 36px)' }}>
           {/* top row */}
           <div className="flex items-start justify-between mb-6">
             <motion.div whileHover={{ rotate: [-6, 6, 0], scale: 1.1 }} transition={{ duration: 0.35 }}
@@ -69,7 +69,7 @@ function StatCard({ label, value, icon, href, index, loaded }: {
 export default function AdminDashboard() {
   const params = useParams();
   const token = params?.token as string;
-  const [data, setData] = useState({ projects: 0, experience: 0, blogs: 0, messages: 0 });
+  const [data, setData] = useState({ projects: 0, experience: 0, blogs: 0, messages: 0, testimonials: 0 });
   const [loaded, setLoaded] = useState(false);
 
   if (!token) return null;
@@ -79,7 +79,13 @@ export default function AdminDashboard() {
       .then(r => r.json())
       .then(j => {
         const s = j.stats ?? j;
-        setData({ projects: s.projects ?? 0, experience: s.experience ?? 0, blogs: s.blogs ?? 0, messages: s.messages ?? 0 });
+        setData({ 
+          projects: s.projects ?? 0, 
+          experience: s.experience ?? 0, 
+          blogs: s.blogs ?? 0, 
+          messages: s.messages ?? 0,
+          testimonials: s.testimonials ?? 0
+        });
         setLoaded(true);
       })
       .catch(() => setLoaded(true));
@@ -99,8 +105,8 @@ export default function AdminDashboard() {
       {/* Section label */}
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-[10px] font-black text-zinc-300 uppercase tracking-[0.6em] mb-3">System Overview</p>
-          <h2 className="text-3xl font-black text-[#0D0D0D] tracking-tight uppercase italic">Dashboard Metrics</h2>
+          <p className="text-[8px] sm:text-[10px] font-black text-zinc-300 uppercase tracking-[0.4em] sm:tracking-[0.6em] mb-2 sm:mb-3">System Overview</p>
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-black text-[#0D0D0D] tracking-tight uppercase italic">Dashboard Metrics</h2>
         </div>
         <span className="flex items-center gap-2 text-[9px] font-black text-zinc-400 uppercase tracking-[0.2em] bg-zinc-50 border border-zinc-100 px-4 py-2 rounded-full">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
@@ -109,7 +115,7 @@ export default function AdminDashboard() {
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-2 xl:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
         {cards.map((c, i) => <StatCard key={c.label} {...c} index={i} loaded={loaded} />)}
       </div>
 
@@ -118,7 +124,8 @@ export default function AdminDashboard() {
         initial={{ opacity: 0, y: 28 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-        className="relative bg-[#0D0D0D] rounded-2xl overflow-hidden shadow-2xl" style={{ padding: '56px', marginTop: '48px' }}
+        className="relative bg-[#0D0D0D] rounded-2xl overflow-hidden shadow-2xl" 
+        style={{ padding: 'clamp(32px, 6vw, 56px)', marginTop: 'clamp(32px, 6vw, 48px)' }}
       >
         <div className="absolute inset-0 flex items-center justify-end overflow-hidden pointer-events-none select-none">
           <p className="text-[11vw] font-black text-white/[0.03] uppercase italic tracking-tighter leading-none pr-8">ADMIN</p>
@@ -140,7 +147,7 @@ export default function AdminDashboard() {
           <h3 style={{ fontSize: 'clamp(2.5rem, 5vw, 4.5rem)', fontWeight: 900, letterSpacing: '-0.04em', color: 'white', textTransform: 'uppercase', fontStyle: 'italic', lineHeight: 1 }}>
             Central<br />Administration
           </h3>
-          <p style={{ fontSize: '11px', color: 'rgba(255,255,255,0.35)', lineHeight: 2, letterSpacing: '0.12em', textTransform: 'uppercase', maxWidth: '520px' }}>
+          <p style={{ fontSize: '10px', color: 'rgba(255,255,255,0.35)', lineHeight: 1.8, letterSpacing: '0.08em', textTransform: 'uppercase', maxWidth: '520px' }}>
             Authenticated within the high-security portfolio management cluster. Synchronize projects,
             manage global messaging, and refine your identity. Secured via 30-min handshake protocol.
           </p>

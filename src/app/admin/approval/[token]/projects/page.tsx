@@ -48,16 +48,17 @@ export default function AdminProjects() {
   return (
     <div className="space-y-12 pb-30">
 
-      <div className="flex items-end justify-between mb-24">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-8 mb-12 sm:mb-24">
         <div>
-         
-          <h2 className="text-6xl font-black text-[#0D0D0D] tracking-tighter uppercase italic leading-none">Projects <span className="text-zinc-200 font-medium text-4xl ml-4">({projects.length})</span></h2>
+          <h2 className="text-4xl sm:text-6xl font-black text-[#0D0D0D] tracking-tighter uppercase italic leading-none">
+            Projects <span className="text-zinc-200 font-medium text-2xl sm:text-4xl ml-2 sm:ml-4">({projects.length})</span>
+          </h2>
         </div>
         <button onClick={() => { setEditing(EMPTY_PROJECT); setOpen(true); }}
-          className="group flex items-center justify-center bg-[#0D0D0D] text-white px-12 py-5 rounded-full hover:bg-zinc-800 active:scale-95 transition-all shadow-xl">
+          className="group flex items-center justify-center bg-[#0D0D0D] text-white px-8 sm:px-12 py-4 sm:py-5 rounded-full hover:bg-zinc-800 active:scale-95 transition-all shadow-xl self-start sm:self-end">
           <div className="flex items-center gap-3">
-            <Plus size={18} className="group-hover:rotate-90 transition-transform duration-300" />
-            <span className="text-[12px] font-bold uppercase tracking-widest translate-x-[2px]">Initialize New</span>
+            <Plus size={18} className="group-hover:rotate-90 transition-transform duration-300 w-4 h-4 sm:w-[18px] sm:h-[18px]" />
+            <span className="text-[10px] sm:text-[12px] font-bold uppercase tracking-widest translate-x-[2px]">Initialize New</span>
           </div>
         </button>
       </div>
@@ -78,7 +79,7 @@ export default function AdminProjects() {
             <motion.div key={project._id}
               initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.08, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              className="bg-white rounded-[40px] border border-zinc-100 flex flex-col shadow-[0_8px_30px_rgba(0,0,0,0.02)] hover:shadow-[0_40px_80px_rgba(0,0,0,0.08)] hover:-translate-y-2 transition-all duration-500 overflow-hidden group">
+              className="bg-white rounded-[32px] sm:rounded-[40px] border border-zinc-100 flex flex-col shadow-[0_8px_30px_rgba(0,0,0,0.02)] hover:shadow-[0_40px_80px_rgba(0,0,0,0.08)] hover:-translate-y-2 transition-all duration-500 overflow-hidden group">
               
               {/* Image Area */}
               <div className="aspect-[16/10] bg-zinc-50 relative overflow-hidden">
@@ -89,10 +90,10 @@ export default function AdminProjects() {
               </div>
 
               {/* Card Body */}
-              <div className="p-12 flex flex-col flex-1">
-                <div className="space-y-6 mb-12">
-                  <h4 className="font-black text-[#0D0D0D] text-3xl tracking-tight uppercase italic leading-none">{project.name}</h4>
-                  <p className="text-[17px] text-zinc-400 leading-relaxed font-medium line-clamp-2">{project.description}</p>
+              <div className="p-8 sm:p-12 flex flex-col flex-1">
+                <div className="space-y-4 sm:space-y-6 mb-8 sm:mb-12">
+                  <h4 className="font-black text-[#0D0D0D] text-2xl sm:text-3xl tracking-tight uppercase italic leading-none">{project.name}</h4>
+                  <p className="text-[15px] sm:text-[17px] text-zinc-400 leading-relaxed font-medium line-clamp-2">{project.description}</p>
                 </div>
 
                 <div className="flex flex-wrap gap-3 mb-12">
@@ -102,15 +103,15 @@ export default function AdminProjects() {
                 </div>
 
                 {/* Footer Actions - Matching the Design */}
-                <div className="mt-auto flex items-center justify-between bg-zinc-50/50 rounded-2xl p-3 border border-zinc-100/50">
+                <div className="mt-auto flex items-center justify-between bg-zinc-50/50 rounded-xl sm:rounded-2xl p-2 sm:p-3 border border-zinc-100/50">
                   <button onClick={() => { setEditing(project); setOpen(true); }}
-                    className="flex items-center gap-4 px-8 py-4 text-[11px] font-black uppercase tracking-[0.3em] text-zinc-500 hover:text-black transition-all group">
-                    <Edit2 size={16} className="text-zinc-300 group-hover:text-black transition-colors" />
+                    className="flex items-center gap-3 sm:gap-4 px-4 sm:px-8 py-3 sm:py-4 text-[10px] sm:text-[11px] font-black uppercase tracking-[0.2em] sm:tracking-[0.3em] text-zinc-500 hover:text-black transition-all group">
+                    <Edit2 size={14} className="text-zinc-300 group-hover:text-black transition-colors sm:w-4 sm:h-4" />
                     Edit Details
                   </button>
                   <button onClick={() => handleDelete(project._id)}
-                    className="w-12 h-12 flex items-center justify-center text-red-400 hover:bg-red-50 hover:text-red-600 rounded-xl transition-all">
-                    <Trash2 size={18} />
+                    className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center text-red-400 hover:bg-red-50 hover:text-red-600 rounded-lg sm:rounded-xl transition-all">
+                    <Trash2 size={16} className="sm:w-[18px] sm:h-[18px]" />
                   </button>
                 </div>
               </div>
@@ -138,28 +139,28 @@ export default function AdminProjects() {
               style={{ maxHeight: '90vh' }}
             >
               {/* Header */}
-              <div className="px-[48px] pt-[56px] pb-[32px] border-b border-zinc-100 bg-white shrink-0">
-                <p className="text-[11px] font-black text-zinc-300 uppercase tracking-[0.5em] mb-[16px]">Project Management // System</p>
-                <div className="flex items-center justify-between gap-6">
-                  <h3 className="text-6xl font-black text-[#0D0D0D] tracking-tighter uppercase italic leading-[0.8] py-2">
+              <div className="px-6 sm:px-12 pt-8 sm:pt-14 pb-6 sm:pb-8 border-b border-zinc-100 bg-white shrink-0">
+                <p className="text-[9px] sm:text-[11px] font-black text-zinc-300 uppercase tracking-[0.3em] sm:tracking-[0.5em] mb-4 sm:mb-[16px]">Project Management // System</p>
+                <div className="flex items-center justify-between gap-4 sm:gap-6">
+                  <h3 className="text-3xl sm:text-5xl md:text-6xl font-black text-[#0D0D0D] tracking-tighter uppercase italic leading-[1] sm:leading-[0.8] py-1 sm:py-2">
                     {editing?._id ? "Edit Project" : "New Project"}
                   </h3>
                   <button 
                     onClick={() => setOpen(false)}
-                    className="w-[48px] h-[48px] shrink-0 flex items-center justify-center bg-zinc-50 hover:bg-zinc-100 text-zinc-400 hover:text-[#0D0D0D] rounded-xl transition-all border border-zinc-100"
+                    className="w-10 h-10 sm:w-12 sm:h-12 shrink-0 flex items-center justify-center bg-zinc-50 hover:bg-zinc-100 text-zinc-400 hover:text-[#0D0D0D] rounded-lg sm:rounded-xl transition-all border border-zinc-100"
                   >
-                    <X size={24} />
+                    <X size={20} className="sm:w-6 sm:h-6" />
                   </button>
                 </div>
               </div>
 
               {/* Scrollable Form body */}
-              <div className="flex-1 overflow-y-auto px-[48px] py-[40px] bg-white custom-scrollbar">
-                <form onSubmit={handleSave} className="space-y-[48px]">
+              <div className="flex-1 overflow-y-auto px-6 sm:px-12 py-8 sm:py-10 bg-white custom-scrollbar">
+                <form onSubmit={handleSave} className="space-y-8 sm:space-y-12">
                   
                   {/* Section: Core Identity */}
-                  <div className="space-y-[24px]">
-                    <p className="text-[11px] font-black text-zinc-300 uppercase tracking-[0.5em] mb-[12px]">Core Identity</p>
+                  <div className="space-y-6 sm:space-y-8">
+                    <p className="text-[10px] sm:text-[11px] font-black text-zinc-300 uppercase tracking-[0.3em] sm:tracking-[0.5em] mb-3 sm:mb-[12px]">Core Identity</p>
                     
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-[24px]">
                       <div className="space-y-[10px]">
@@ -206,33 +207,33 @@ export default function AdminProjects() {
                         rows={5} 
                         value={editing?.description || ""} 
                         onChange={e => setEditing({ ...editing, description: e.target.value })}
-                        className="w-full bg-white border border-zinc-200 rounded-xl px-[20px] py-[20px] text-sm font-medium text-[#0D0D0D] focus:outline-none focus:border-zinc-400 transition-all resize-none leading-relaxed placeholder:text-zinc-300"
+                        className="w-full bg-white border border-zinc-200 rounded-lg sm:rounded-xl px-4 sm:px-[20px] py-4 sm:py-[20px] text-sm font-medium text-[#0D0D0D] focus:outline-none focus:border-zinc-400 transition-all resize-none leading-relaxed placeholder:text-zinc-300"
                         placeholder="Project Description" 
                       />
                     </div>
                   </div>
 
                   {/* Section: Assets & Deployment */}
-                  <div className="space-y-[24px]">
-                    <p className="text-[11px] font-black text-zinc-300 uppercase tracking-[0.5em] mb-[12px]">Assets & Deployment</p>
+                  <div className="space-y-6 sm:space-y-8">
+                    <p className="text-[10px] sm:text-[11px] font-black text-zinc-300 uppercase tracking-[0.3em] sm:tracking-[0.5em] mb-3 sm:mb-[12px]">Assets & Deployment</p>
                     
-                    <div className="space-y-[10px]">
-                      <label className="text-[10px] font-black text-zinc-800 uppercase tracking-[0.2em] ml-1 block">Visual Asset URL</label>
+                    <div className="space-y-2 sm:space-y-[10px]">
+                      <label className="text-[9px] sm:text-[10px] font-black text-zinc-800 uppercase tracking-[0.2em] ml-1 block">Visual Asset URL</label>
                       <input 
                         value={editing?.imageUrl || ""} 
                         onChange={e => setEditing({ ...editing, imageUrl: e.target.value })}
-                        className="w-full bg-white border border-zinc-200 rounded-xl px-[20px] py-[16px] text-sm font-medium text-[#0D0D0D] focus:outline-none focus:border-zinc-400 transition-all placeholder:text-zinc-300"
+                        className="w-full bg-white border border-zinc-200 rounded-lg sm:rounded-xl px-4 sm:px-[20px] py-3 sm:py-[16px] text-sm font-medium text-[#0D0D0D] focus:outline-none focus:border-zinc-400 transition-all placeholder:text-zinc-300"
                         placeholder="Image URL" 
                       />
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-[24px]">
-                      <div className="space-y-[10px]">
-                        <label className="text-[10px] font-black text-zinc-800 uppercase tracking-[0.2em] ml-1 block">Source Code</label>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-[24px]">
+                      <div className="space-y-2 sm:space-y-[10px]">
+                        <label className="text-[9px] sm:text-[10px] font-black text-zinc-800 uppercase tracking-[0.2em] ml-1 block">Source Code</label>
                         <input 
                           value={editing?.githubUrl || ""} 
                           onChange={e => setEditing({ ...editing, githubUrl: e.target.value })}
-                          className="w-full bg-white border border-zinc-200 rounded-xl px-[20px] py-[16px] text-sm font-medium text-[#0D0D0D] focus:outline-none focus:border-zinc-400 transition-all placeholder:text-zinc-300"
+                          className="w-full bg-white border border-zinc-200 rounded-lg sm:rounded-xl px-4 sm:px-[20px] py-3 sm:py-[16px] text-sm font-medium text-[#0D0D0D] focus:outline-none focus:border-zinc-400 transition-all placeholder:text-zinc-300"
                           placeholder="GitHub Link" 
                         />
                       </div>
